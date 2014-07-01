@@ -18,13 +18,27 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-<<<<<<< HEAD
-    "jQuery": true,
-    "$": true
-=======
     "PackJournal": true,
     "Ember": true,
-    "DS": true
->>>>>>> e017df66af20fca13166b7583386c59662d33229
-  }
+    "DS": true,
+
+    "describe": true,
+    "it": true,
+    "before": true,
+    "beforeEach": true,
+    "after": true,
+    "afterEach": true,
+    "expect": true,
+    "sinon": true,
+
+    "find": true,
+    "visit": true,
+    "click": true,
+    "fillIn": true,
+    "andThen": true,
+    "currentRouteName": true,
+    "currentPath": true,
+    "currentURL": true
+  },
+  "expr": true
 }
