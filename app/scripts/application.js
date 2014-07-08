@@ -1,3 +1,3 @@
 'use strict';
 
-window.PackJournal = Ember.Application.create();
+window.App = Ember.Application.create();
