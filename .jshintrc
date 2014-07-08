@@ -18,8 +18,9 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "PackJournal": true,
+    "App": true,
     "Ember": true,
-    "DS": true
+    "DS": true,
+    "L": true
   }
 }
