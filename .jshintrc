@@ -18,13 +18,11 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-<<<<<<< HEAD
     "jQuery": true,
-    "$": true
-=======
-    "PackJournal": true,
+    "$": true,
+    "App": true,
     "Ember": true,
-    "DS": true
->>>>>>> e017df66af20fca13166b7583386c59662d33229
+    "DS": true,
+    "L": true
   }
 }
