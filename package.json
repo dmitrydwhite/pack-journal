@@ -15,6 +15,7 @@
     "serve-favicon": "^2.0.1"
   },
   "devDependencies": {
+    "bluebird": "^2.2.1",
     "browserify": "^4.1.11",
     "chai": "^1.9.0",
     "chalk": "^0.4.0",

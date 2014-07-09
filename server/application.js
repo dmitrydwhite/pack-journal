@@ -43,7 +43,6 @@ app.use(methodOverride());
 var api = express.Router();
 
 api.get('/trips', function(req, res) {
-  console.log('in api route');
   Trip.find(function(err, docs) {
     // TODO: Error handling generally
     res.send(docs);
