@@ -21,6 +21,7 @@
     "PackJournal": true,
     "Ember": true,
     "DS": true,
+    "App": true,
 
     "describe": true,
     "it": true,

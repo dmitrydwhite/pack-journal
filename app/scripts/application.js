@@ -22,12 +22,15 @@ App.Trip = DS.Model.extend({
 
 //Routing
 Ember.Router.map(function () {
-  this.resource('trips', {path: '/trips'});
+  this.resource('trips', {path: '/'});
 });
 
 App.TripsRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('trip');
+  },
+  renderTemplate: function() {
+    this.render({ outlet: 'tripBar' });
   }
 });
 
