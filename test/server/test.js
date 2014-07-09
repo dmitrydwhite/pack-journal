@@ -33,7 +33,7 @@ describe('Trips API', function() {
     }.bind(this));
   });
 
-  it('Correctly communicates with db', function(done) {
+  it('Correctly responds to POST request', function(done) {
     request({
       url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
       method: this.postTripsFixture.request.method,
