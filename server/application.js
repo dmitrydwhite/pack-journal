@@ -12,17 +12,11 @@ var config = require('./config');
 var app = express();
 var config = require('./config');
 
-var db = require('mongoose');
-
+global.db = require('mongoose');
 db.connect(config.db.connection);
+var tripRoutes = require('./routes/trips');
 
-// Model definitions
 
-var Schema = db.Schema;
-var TripSchema = new Schema({
-  name: String
-});
-var Trip = db.model('Trip', TripSchema);
 
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
@@ -41,24 +35,8 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 var api = express.Router();
-
-api.get('/trips', function(req, res) {
-  Trip.find(function(err, docs) {
-    // TODO: Error handling generally
-    // TODO: Map the doc to remove unwanted db info
-    var tripsRes = { trips: docs };
-    res.send(tripsRes);
-  });
-});
-
-api.post('/trips', function(req, res) {
-  Trip.create(req.body , function(err, doc) {
-    // TODO: Handle error
-    var tripRes = { trip: doc };
-    res.send(tripRes);
-  });
-});
-
+api.get('/trips', tripRoutes.getAll);
+api.post('/trips', tripRoutes.post);
 app.use('/api', api);
 
 // expose app

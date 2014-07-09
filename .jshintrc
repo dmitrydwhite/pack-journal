@@ -23,6 +23,7 @@
     "App": true,
     "Ember": true,
     "DS": true,
-    "L": true
+    "L": true,
+    "db": true
   }
 }
