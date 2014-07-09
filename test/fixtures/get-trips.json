@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/trips"
+  },
+  "response": {
+    "trips": [
+      {
+        "id": 1,
+        "name": "Dmitry's Big Adventure",
+        "waypoints": [
+          {
+            "lat": 45.46,
+            "long": -122.7
+          },
+          {
+            "lat": 45.47,
+            "long": -122.8
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Adam's Walkabout",
+        "waypoints": [
+          {
+            "lat": 44.22,
+            "long": -123.78
+          },
+          {
+            "lat": 45.47,
+            "long": -122.8
+          }
+        ]
+      }
+    ]
+  }
+}

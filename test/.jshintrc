@@ -30,6 +30,7 @@
     "afterEach": true,
     "expect": true,
     "sinon": true,
+    "__fixture": true,
 
     "find": true,
     "visit": true,
