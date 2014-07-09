@@ -6,7 +6,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var compression = require('compression');
-var _ = require('lodash');
 var favicon = require('serve-favicon');
 var config = require('./config');
 
