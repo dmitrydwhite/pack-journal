@@ -5,6 +5,7 @@ var request = require('request');
 var server = require('../../server/application');
 var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
+var db = require('mongoose');
 
 describe('Trips API', function() {
   before(function(done) {
@@ -42,6 +43,21 @@ describe('Trips API', function() {
       // TODO: Inspect res and make sure we get a 200 back
         expect(body.trip._id).to.exist;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
+      done();
+    }.bind(this));
+  });
+
+  it('Inserts a trip into the database on a POST request', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
+      method: this.postTripsFixture.request.method,
+      json: this.postTripsFixture.request.json
+    }, function() {
+      var Trip = db.model('Trip');
+      Trip.find({ name: this.postTripsFixture.request.json.name }, function(err, docs) {
+        expect(docs[0].name).to.eql(this.postTripsFixture.request.json.name);
+        expect(docs[0]._id).to.exist;
+      }.bind(this));
       done();
     }.bind(this));
   });
