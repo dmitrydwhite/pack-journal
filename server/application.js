@@ -12,6 +12,17 @@ var config = require('./config');
 var app = express();
 var config = require('./config');
 
+var db = require('mongoose');
+
+db.connect(config.db.connection);
+
+// Model definitions
+
+var Schema = db.Schema;
+var Trip = new Schema({
+  name: String
+});
+
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
   app.use(connectLivereload({ port: process.env.LIVERELOAD_PORT || 35729 }));
@@ -27,6 +38,16 @@ if (config.env === 'production') {
 }
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+var api = express.Router();
+
+api.get('/trips', function(req, res) {
+  console.log('in api route');
+  Trip.find(function(err, docs) {
+    // TODO: Error handling generally
+    res.send(docs);
+  });
+});
 
 // expose app
 module.exports = app;

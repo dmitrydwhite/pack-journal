@@ -9,6 +9,8 @@
     "express": "^4.4.0",
     "lodash": "^2.4.1",
     "method-override": "^2.0.2",
+    "mongodb": "^1.4.7",
+    "mongoose": "^3.8.12",
     "morgan": "^1.1.1",
     "serve-favicon": "^2.0.1"
   },
@@ -50,6 +52,7 @@
     "karma-script-launcher": "^0.1.0",
     "karma-sinon": "^1.0.2",
     "mocha": "^1.20.0",
+    "mongodb": "^1.4.7",
     "open": "^0.0.5",
     "ordered-read-streams": "0.0.7",
     "request": "^2.37.0",
