@@ -6,6 +6,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var compression = require('compression');
+var _ = require('lodash');
 var favicon = require('serve-favicon');
 var config = require('./config');
 
@@ -46,7 +47,8 @@ api.get('/trips', function(req, res) {
   Trip.find(function(err, docs) {
     // TODO: Error handling generally
     // TODO: Map the doc to remove unwanted db info
-    res.send(docs);
+    var tripsRes = { trips: docs };
+    res.send(tripsRes);
   });
 });
 
