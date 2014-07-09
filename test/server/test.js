@@ -24,9 +24,10 @@ describe('Trips API', function() {
       method: this.getTripsFixture.request.method
     }, function(err, res, body) {
       // TODO: Inspect res and make sure we get a 200 back
-      _.forEach(body.trips, function(trip, index) {
-        expect(trip.id).to.exist;
-        expect(trip.name).to.eql(this.getTripsFixture.response[index].name);
+      var bodyObj = JSON.parse(body);
+      _.forEach(bodyObj.trips, function(trip, index) {
+        expect(trip._id).to.exist;
+        expect(trip.name).to.eql(this.getTripsFixture.response.trips[index].name);
       }.bind(this));
       done();
     }.bind(this));
