@@ -19,9 +19,10 @@ db.connect(config.db.connection);
 // Model definitions
 
 var Schema = db.Schema;
-var Trip = new Schema({
+var TripSchema = new Schema({
   name: String
 });
+var Trip = db.model('Trip', TripSchema);
 
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
@@ -48,6 +49,8 @@ api.get('/trips', function(req, res) {
     res.send(docs);
   });
 });
+
+app.use('/api', api);
 
 // expose app
 module.exports = app;

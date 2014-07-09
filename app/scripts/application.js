@@ -11,9 +11,9 @@ Ember.config = {
 
 require('./components/map-display.js');
 
-App.ApplicationAdapter = Ember.RESTAdapter.extend({
-  namespace: 'api'
-});
+// App.ApplicationAdapter = Ember.RESTAdapter.extend({
+//   namespace: 'api'
+// });
 
 // Routing
 

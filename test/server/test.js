@@ -18,8 +18,6 @@ describe('Trips API', function() {
       method: this.getTripsFixture.request.method
     }, function(err, res, body) {
       // TODO: Inspect res and make sure we get a 200 back
-      console.log(body);
-      console.log(res);
       expect(body).to.eql(this.getTripsFixture.response);
       done();
     }.bind(this));
