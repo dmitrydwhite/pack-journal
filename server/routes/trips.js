@@ -1,20 +1,29 @@
 'use strict';
 
+var _ = require('lodash');
+
 var Trip = require('../models/trip').Trip;
 
 exports.getAll = function(req, res) {
   Trip.find(function(err, docs) {
     // TODO: Error handling generally
-    // TODO: Map the doc to remove unwanted db info
-    var tripsRes = { trips: docs };
-    res.send(tripsRes);
+    var mappedDoc = _.map(docs, function(doc) {
+      return {
+        id  : doc._id,
+        name: doc.name
+      };
+    });
+    res.json({ trips: mappedDoc });
   });
 };
 
 exports.post = function(req, res) {
   Trip.create(req.body , function(err, doc) {
     // TODO: Handle error
-    var tripRes = { trip: doc };
-    res.send(tripRes);
+    var mappedDoc = {
+      id: doc._id,
+      name: doc.name
+    };
+    res.json({ trip: mappedDoc });
   });
 };

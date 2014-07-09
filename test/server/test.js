@@ -27,7 +27,7 @@ describe('Trips API', function() {
       // TODO: Inspect res and make sure we get a 200 back
       var bodyObj = JSON.parse(body);
       _.forEach(bodyObj.trips, function(trip, index) {
-        expect(trip._id).to.exist;
+        expect(trip.id).to.exist;
         expect(trip.name).to.eql(this.getTripsFixture.response.trips[index].name);
       }.bind(this));
       done();
@@ -41,7 +41,7 @@ describe('Trips API', function() {
       json: this.postTripsFixture.request.json
     }, function(err, res, body) {
       // TODO: Inspect res and make sure we get a 200 back
-        expect(body.trip._id).to.exist;
+        expect(body.trip.id).to.exist;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
       done();
     }.bind(this));
