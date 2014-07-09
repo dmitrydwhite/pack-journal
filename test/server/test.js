@@ -4,6 +4,7 @@ var expect = require('chai').expect;
 var request = require('request');
 var server = require('../../server/application');
 var helpers = require('./helpers/fixture_helper');
+var _ = require('lodash');
 
 describe('Trips API', function() {
   before(function(done) {
@@ -22,7 +23,10 @@ describe('Trips API', function() {
       method: this.getTripsFixture.request.method
     }, function(err, res, body) {
       // TODO: Inspect res and make sure we get a 200 back
-      expect(body).to.eql(this.getTripsFixture.response);
+      _.forEach(body.trips, function(trip, index) {
+        expect(trip.id).to.exist;
+        expect(trip.name).to.eql(this.getTripsFixture.response[index].name);
+      }.bind(this));
       done();
     }.bind(this));
   });
