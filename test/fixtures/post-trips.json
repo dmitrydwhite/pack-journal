@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/trip",
+    "json": {
+      "name": "Testing the Post Trip"
+    }
+  },
+  "response": {
+    "trip":
+      {
+        "id": 1,
+        "name": "Testing the Post Trip"
+      }
+  }
+}

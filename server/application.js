@@ -51,6 +51,14 @@ api.get('/trips', function(req, res) {
   });
 });
 
+api.post('/trip', function(req, res) {
+  Trip.create(req.body , function(err, doc) {
+    // TODO: Handle error
+    var tripRes = { trip: doc };
+    res.send(tripRes);
+  });
+});
+
 app.use('/api', api);
 
 // expose app
