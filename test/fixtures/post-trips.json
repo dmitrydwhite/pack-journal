@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "POST",
-    "url": "/api/trip",
+    "url": "/api/trips",
     "json": {
       "name": "Testing the Post Trip"
     }
