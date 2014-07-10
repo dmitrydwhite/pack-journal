@@ -29,6 +29,7 @@ describe('Trips API', function() {
       _.forEach(bodyObj.trips, function(trip, index) {
         expect(trip.id).to.exist;
         expect(trip.name).to.eql(this.getTripsFixture.response.trips[index].name);
+        expect(trip.features).to.eql(this.getTripsFixture.response.trips[index].features);
       }.bind(this));
       done();
     }.bind(this));

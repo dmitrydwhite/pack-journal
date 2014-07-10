@@ -6,12 +6,26 @@
   "response": {
     "trips": [
       {
-        "id": 1,
-        "name": "Dmitry's Big Adventure"
+        "name": "Dmitry's Big Adventure",
+        "features":
+        {
+          "waypoints":
+          [
+            [47, -122],
+            [47.1, -122.1]
+          ]
+        }
       },
       {
-        "id": 2,
-        "name": "Adam's Walkabout"
+        "name": "Adam's Walkabout",
+        "features":
+        {
+          "waypoints":
+          [
+            [48.25, -122.22],
+            [48.29,  122.54]
+          ]
+        }
       }
     ]
   }

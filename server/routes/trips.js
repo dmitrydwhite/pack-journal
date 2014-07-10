@@ -10,7 +10,8 @@ exports.getAll = function(req, res) {
     var mappedDoc = _.map(docs, function(doc) {
       return {
         id  : doc._id,
-        name: doc.name
+        name: doc.name,
+        features: doc.features
       };
     });
     res.json({ trips: mappedDoc });
