@@ -10,9 +10,9 @@ Ember.config = {
 };
 
 require('./components/map-display.js');
-require('./models/trip');
+require('./models/trip-model');
 require('./router');
-require('./routes/tripsRoute');
+require('./routes/trips-route');
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
