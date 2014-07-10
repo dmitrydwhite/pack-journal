@@ -32,7 +32,6 @@ App.MapDisplayComponent = Ember.Component.extend({
     var southWest = L.latLng(minLat, minLong);
     var northEast = L.latLng(maxLat, maxLong);
     var bounds = L.latLngBounds(southWest, northEast);
-    console.log(bounds);
     map.fitBounds(bounds);
 
     if(this.get('waypoints')) {
