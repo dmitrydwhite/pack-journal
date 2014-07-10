@@ -6,6 +6,7 @@
   "response": {
     "trips": [
       {
+        "id": 1,
         "name": "Dmitry's Big Adventure",
         "features":
         {
@@ -17,6 +18,7 @@
         }
       },
       {
+        "id": 2,
         "name": "Adam's Walkabout",
         "features":
         {
