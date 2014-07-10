@@ -3,7 +3,7 @@ var Schema = db.Schema;
 var TripSchema = new Schema({
   name: String,
   features: {
-    waypoints: [ Schema.Types.Array ]
+    waypoints: [ Schema.Types.Mixed ]
   }
 });
 

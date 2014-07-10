@@ -20,10 +20,10 @@ exports.getAll = function(req, res) {
 
 exports.post = function(req, res) {
   Trip.create(req.body , function(err, doc) {
-    // TODO: Handle error
     var mappedDoc = {
       id: doc._id,
-      name: doc.name
+      name: doc.name,
+      features: doc.features
     };
     res.json({ trip: mappedDoc });
   });

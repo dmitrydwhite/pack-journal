@@ -3,14 +3,29 @@
     "method": "POST",
     "url": "/api/trips",
     "json": {
-      "name": "Testing the Post Trip"
+      "name": "Testing the Post Trip",
+      "features":
+        {
+          "waypoints":
+          [
+            { "latitude": 47, "longitude": -122 },
+            { "latitude": 47.1, "longitude": -122.1 }
+          ]
+        }
     }
   },
   "response": {
     "trip":
       {
-        "id": 1,
-        "name": "Testing the Post Trip"
+        "name": "Testing the Post Trip",
+        "features":
+        {
+          "waypoints":
+          [
+            { "latitude": 47, "longitude": -122 },
+            { "latitude": 47.1, "longitude": -122.1 }
+          ]
+        }
       }
   }
 }

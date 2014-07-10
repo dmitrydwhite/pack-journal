@@ -6,6 +6,7 @@ var server = require('../../server/application');
 var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
 var db = require('mongoose');
+var util = require('util');
 
 describe('Trips API', function() {
   before(function(done) {
@@ -44,21 +45,21 @@ describe('Trips API', function() {
       // TODO: Inspect res and make sure we get a 200 back
         expect(body.trip.id).to.exist;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
+        expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
       done();
     }.bind(this));
   });
 
   it('Inserts a trip into the database on a POST request', function(done) {
-    request({
-      url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
-      method: this.postTripsFixture.request.method,
-      json: this.postTripsFixture.request.json
-    }, function() {
-      var Trip = db.model('Trip');
-      Trip.find({ name: this.postTripsFixture.request.json.name }, function(err, docs) {
-        expect(docs[0].name).to.eql(this.postTripsFixture.request.json.name);
-        expect(docs[0]._id).to.exist;
-      }.bind(this));
+    var Trip = db.model('Trip');
+    Trip.find({ name: this.postTripsFixture.request.json.name }, function(err, docs) {
+      debugger;
+      expect(docs[0].name).to.eql(this.postTripsFixture.request.json.name);
+      expect(docs[0].features.waypoints[0])
+        .to.eql(this.postTripsFixture.request.json.features.waypoints[0]);
+      expect(docs[0].features.waypoints[1])
+        .to.eql(this.postTripsFixture.request.json.features.waypoints[1]);
+      expect(docs[0]._id).to.exist;
       done();
     }.bind(this));
   });

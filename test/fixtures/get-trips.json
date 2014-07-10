@@ -11,8 +11,8 @@
         {
           "waypoints":
           [
-            [47, -122],
-            [47.1, -122.1]
+            { "latitude": 47, "longitude": -122 },
+            { "latitude": 47.1, "longitude": -122.1 }
           ]
         }
       },
@@ -22,8 +22,8 @@
         {
           "waypoints":
           [
-            [48.25, -122.22],
-            [48.29,  122.54]
+            { "latitude": 47.2, "longitude": -121.98 },
+            { "latitude": 47.15, "longitude": -122.11 }
           ]
         }
       }
