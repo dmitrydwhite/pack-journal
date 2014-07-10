@@ -11,14 +11,10 @@ Ember.config = {
 
 require('./components/map-display.js');
 require('./models/trip');
+require('./router');
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
-});
-
-//Routing
-Ember.Router.map(function () {
-  this.resource('trips', {path: '/'});
 });
 
 App.TripsRoute = Ember.Route.extend({
