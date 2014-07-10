@@ -14,6 +14,6 @@ require('./models/trip-model');
 require('./router');
 require('./routes/trips-route');
 
-App.ApplicationAdapter = DS.RESTAdapter.extend({
+App.TripAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
