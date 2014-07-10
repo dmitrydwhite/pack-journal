@@ -12,18 +12,8 @@ Ember.config = {
 require('./components/map-display.js');
 require('./models/trip');
 require('./router');
+require('./routes/tripsRoute');
 
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
-
-App.TripsRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.find('trip');
-  },
-  renderTemplate: function() {
-    this.render({ outlet: 'tripBar' });
-  }
-});
-
-
