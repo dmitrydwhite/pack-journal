@@ -6,8 +6,6 @@ App.TripAdapter = DS.RESTAdapter.extend({
 
 App.TripSerializer = DS.RESTSerializer.extend({
   extractArray: function(store, type, payload) {
-    console.log(payload);
-
     payload.trips.forEach(function(trip) {
       trip.waypoints = trip.features.waypoints;
       delete trip.features;
