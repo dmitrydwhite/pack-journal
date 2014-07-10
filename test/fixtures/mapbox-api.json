@@ -1,0 +1,59 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "http://a.tiles.mapbox.com/v3/athorak.ile4f80n.json"
+  },
+  "response": {
+    "attribution":"<a href='https://www.mapbox.com/about/maps/' target='_blank'>&copy; Mapbox &copy; OpenStreetMap</a> <a class='mapbox-improve-map' href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a>",
+    "autoscale":true,
+    "bounds":[
+      -180,
+      -85,
+      180,
+      85
+    ],
+    "center":[
+      -122.67620086669922,
+      45.523399353027344,
+      4
+    ],
+    "data":[
+      "http://a.tiles.mapbox.com/v3/athorak.ile4f80n/markers.geojsonp"
+    ],
+    "description":"",
+    "embed":"http://a.tiles.mapbox.com/v3/athorak.ile4f80n.html",
+    "geocoder":"http://a.tiles.mapbox.com/v3/athorak.ile4f80n/geocode/{query}.jsonp",
+    "id":"athorak.ile4f80n",
+    "maxzoom":19,
+    "minzoom":0,
+    "name":"Pack Journal",
+    "private":true,
+    "scheme":"xyz",
+    "tilejson":"2.0.0",
+    "tiles":[
+      "http://a.tiles.mapbox.com/v3/athorak.ile4f80n/{z}/{x}/{y}.png",
+      "http://b.tiles.mapbox.com/v3/athorak.ile4f80n/{z}/{x}/{y}.png"
+    ],
+    "vector_layers":[
+      {
+        "fields":{
+
+        },
+        "id":"base_live_land_tr"
+      },
+      {
+        "fields":{
+
+        },
+        "id":"base_live_landuse_tr"
+      },
+      {
+        "fields":{
+
+        },
+        "id":"mapbox_streets"
+      }
+    ],
+    "webpage":"http://a.tiles.mapbox.com/v3/athorak.ile4f80n/page.html"
+  }
+}

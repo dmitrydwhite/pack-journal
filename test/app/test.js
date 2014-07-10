@@ -3,6 +3,7 @@
 describe('app', function() {
   before(function() {
     this.getTripsFixture = __fixture('get-trips');
+    this.mapBoxFixture = __fixture('mapbox-api');
     this.server = sinon.fakeServer.create();
     this.server.autoRespond = true;
   });
@@ -16,11 +17,16 @@ describe('app', function() {
   });
 
   it('displays a map from mapbox', function(done) {
-    // Set up Fake Server response
+    // Set up Fake Server responses
     this.server.respondWith(this.getTripsFixture.request.method,
       this.getTripsFixture.request.url,
       [200, { 'Content-Type': 'application/json' },
       JSON.stringify(this.getTripsFixture.response)]);
+
+    this.server.respondWith(this.mapBoxFixture.request.method,
+      this.mapBoxFixture.request.url,
+      [200, { 'Content-Type': 'application/json' },
+      JSON.stringify(this.mapBoxFixture.response)]);
 
     //Perform actual test
     visit('/');
