@@ -1,4 +1,4 @@
-[![Code Climate][codeclimate-image]] [codeclimate-url][![Dependencies][david-image]][david-url]
+[![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url][![Dependencies][david-image]][david-url]
 
 #Pack Journal
 Pack-Journal backpacking trip journal site
@@ -51,3 +51,5 @@ git branch -D release
 [codeclimate-url]: https://codeclimate.com/github/dmitrydwhite/pack-journal
 [david-image]: https://david-dm.org/dmitrydwhite/pack-journal.png
 [david-url]: https://david-dm.org/dmitrydwhite/pack-journal
+[travis-url]: http://travis-ci.org/dmitrydwhite/pack-journal
+[travis-image]: https://secure.travis-ci.org/dmitrydwhite/pack-journal.png?branch=master
