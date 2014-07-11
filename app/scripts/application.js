@@ -14,4 +14,5 @@ require('./models/trip-model');
 require('./router');
 require('./routes/trips-route');
 require('./routes/trip-route');
+require('./routes/trips-add-route');
 require('./adapters');
