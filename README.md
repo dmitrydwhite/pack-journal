@@ -1,4 +1,4 @@
-[![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url][![Dependencies][david-image]][david-url]
+[![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url] [![Dependencies][david-image]][david-url]
 
 #Pack Journal
 Pack-Journal backpacking trip journal site
