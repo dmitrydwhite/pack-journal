@@ -1,4 +1,21 @@
+#Pack Journal
 Pack-Journal backpacking trip journal site
+
+##Requirements
+* MongoDB
+* Node
+
+##Installation
+1. Clone repository
+2. `npm install``
+3. `bower install`
+4. Set development and test MongoDB connection strings as desired via environment config files in `server/config/env/`
+
+##Testing
+Test suite is run with `gulp test`.  Optionally, only server side or client side tests can be run with `gulp test:server` and `gulp test:app`.
+
+##Develoment server
+Development server is started with `gulp serve`
 
 ##Deployment
 Commit any changes desired to master and perform the following for a deploy to heroku:
