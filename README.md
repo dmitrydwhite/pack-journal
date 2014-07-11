@@ -7,7 +7,7 @@ Pack-Journal backpacking trip journal site
 
 ##Installation
 1. Clone repository
-2. `npm install``
+2. `npm install`
 3. `bower install`
 4. Set development and test MongoDB connection strings as desired via environment config files in `server/config/env/`
 
