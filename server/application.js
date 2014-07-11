@@ -1,5 +1,8 @@
 'use strict';
 
+var config = require('./config');
+if (config.env === 'production') { require('newrelic'); }
+
 var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
@@ -10,7 +13,6 @@ var favicon = require('serve-favicon');
 var config = require('./config');
 
 var app = express();
-var config = require('./config');
 
 global.db = require('mongoose');
 db.connect(config.db.connection);
