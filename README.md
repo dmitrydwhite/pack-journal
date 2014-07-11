@@ -1,4 +1,4 @@
-[![Code Climate][codeclimate-image]][codeclimate-url][![Dependencies][david-image]][david-url]
+[![Code Climate][codeclimate-image]] [codeclimate-url][![Dependencies][david-image]][david-url]
 
 #Pack Journal
 Pack-Journal backpacking trip journal site
