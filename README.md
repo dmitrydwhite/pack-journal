@@ -1,3 +1,5 @@
+[![Dependencies][david-image]][david-url]
+
 #Pack Journal
 Pack-Journal backpacking trip journal site
 
@@ -44,3 +46,6 @@ git push --tags
 git checkout master
 git branch -D release
 ```
+
+[david-image]: https://david-dm.org/dmitrydwhite/pack-journal.png
+[david-url]: https://david-dm.org/dmitrydwhite/pack-journal
