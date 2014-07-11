@@ -51,12 +51,12 @@ describe('Trips API', function() {
 
   it('Inserts a trip into the database on a POST request', function(done) {
     var Trip = db.model('Trip');
-    Trip.find({ name: this.postTripsFixture.request.json.name }, function(err, docs) {
-      expect(docs[0].name).to.eql(this.postTripsFixture.request.json.name);
+    Trip.find({ name: this.postTripsFixture.request.json.trip.name }, function(err, docs) {
+      expect(docs[0].name).to.eql(this.postTripsFixture.request.json.trip.name);
       expect(docs[0].features.waypoints[0])
-        .to.eql(this.postTripsFixture.request.json.features.waypoints[0]);
+        .to.eql(this.postTripsFixture.request.json.trip.features.waypoints[0]);
       expect(docs[0].features.waypoints[1])
-        .to.eql(this.postTripsFixture.request.json.features.waypoints[1]);
+        .to.eql(this.postTripsFixture.request.json.trip.features.waypoints[1]);
       expect(docs[0]._id).to.exist;
       done();
     }.bind(this));

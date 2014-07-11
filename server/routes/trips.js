@@ -19,7 +19,7 @@ exports.getAll = function(req, res) {
 };
 
 exports.post = function(req, res) {
-  Trip.create(req.body , function(err, doc) {
+  Trip.create(req.body.trip , function(err, doc) {
     var mappedDoc = {
       id: doc._id,
       name: doc.name,
