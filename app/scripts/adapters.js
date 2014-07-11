@@ -12,5 +12,21 @@ App.TripSerializer = DS.RESTSerializer.extend({
     });
 
     return this._super(store, type, payload);
+  },
+
+  serialize: function(trip, options) {
+    console.log('serializing');
+    var json = {
+      name: trip.get('name'),
+      features: {
+        waypoints: trip.get('waypoints')
+      }
+    };
+
+    if (options.includeId) {
+      json.id = trip.get('id');
+    }
+
+    return json;
   }
 });

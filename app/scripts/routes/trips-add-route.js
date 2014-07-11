@@ -1,6 +1,7 @@
 'use strict';
 
 App.TripsAddRoute = Ember.Route.extend({
+
   renderTemplate: function() {
     this.render('map/default', {
       outlet: 'map',
@@ -20,7 +21,7 @@ App.TripsAddRoute = Ember.Route.extend({
         name: this.get('controller.name')
       });
       console.log(trip);
-      // trip.save();   // Save this for later, serialization issues
+      trip.save();   // Save this for later, serialization issues
       this.transitionTo('trip.edit', this);
     }
   }
