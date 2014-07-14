@@ -86,13 +86,13 @@ describe('Trips API', function() {
     request({
       url: 'http://localhost:' + '9000' + this.putTripFixture.request.url +
         '/' + insertedTripId,
-      method: this.putTripFixture.request.method
+      method: this.putTripFixture.request.method,
+      json: this.putTripFixture.request.json
     }, function(err, res, body) {
       expect(res.statusCode).to.eql(200);
-      var bodyObj = JSON.parse(body);
-      expect(bodyObj.trip.id).to.eql(insertedTripId);
-      expect(bodyObj.trip.name).to.eql(this.putTripFixture.response.trip.name);
-      expect(bodyObj.trip.features).to.eql(this.putTripFixture.response.trip.features);
+      expect(body.trip.id).to.eql(insertedTripId);
+      expect(body.trip.name).to.eql(this.putTripFixture.response.trip.name);
+      expect(body.trip.features).to.eql(this.putTripFixture.response.trip.features);
       done();
     }.bind(this));
   });
@@ -105,9 +105,8 @@ describe('Trips API', function() {
         .to.eql(this.putTripFixture.request.json.trip.features.waypoints[0]);
       expect(doc.features.waypoints[1])
         .to.eql(this.putTripFixture.request.json.trip.features.waypoints[1]);
-      expect(doc._id).to.eql(insertedTripId);
+      expect(doc._id.toString()).to.equal(insertedTripId);
       done();
     }.bind(this));
   });
-
 });

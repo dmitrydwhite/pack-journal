@@ -40,6 +40,7 @@ var api = express.Router();
 api.get('/trips', tripRoutes.getAll);
 api.get('/trips/:id', tripRoutes.get);
 api.post('/trips', tripRoutes.post);
+api.put('/trips/:id', tripRoutes.put);
 app.use('/api', api);
 
 // expose app

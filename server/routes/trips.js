@@ -40,3 +40,17 @@ exports.post = function(req, res) {
     res.json({ trip: mappedDoc });
   });
 };
+
+exports.put = function(req, res) {
+  Trip.findOneAndUpdate({ _id: req.params.id},
+    req.body.trip,
+    { new: true },
+    function(err, doc) {
+      var mappedDoc = {
+        id: doc._id,
+        name: doc.name,
+        features: doc.features
+    };
+    res.json({ trip: mappedDoc });
+  });
+};
