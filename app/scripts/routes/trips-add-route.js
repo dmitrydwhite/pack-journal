@@ -15,14 +15,13 @@ App.TripsAddRoute = Ember.Route.extend({
 
   actions: {
     saveTrip: function() {
-      console.log('Yep, save this trip');
-
       var trip = this.store.createRecord('trip', {
         name: this.get('controller.name')
       });
-      console.log(trip);
-      trip.save();   // Save this for later, serialization issues
-      this.transitionTo('trip.edit', this);
+      trip.save()
+      .then(function(record) {
+        this.transitionTo('trip.edit', record);
+      }.bind(this));
     }
   }
 });
