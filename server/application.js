@@ -38,6 +38,7 @@ app.use(methodOverride());
 
 var api = express.Router();
 api.get('/trips', tripRoutes.getAll);
+api.get('/trips/:id', tripRoutes.get)
 api.post('/trips', tripRoutes.post);
 app.use('/api', api);
 

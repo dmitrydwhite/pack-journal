@@ -18,6 +18,18 @@ exports.getAll = function(req, res) {
   });
 };
 
+exports.get = function(req, res) {
+  Trip.findById(req.params.id, function(err, doc) {
+    res.json({
+      trip: {
+        id: doc._id,
+        name: doc.name,
+        features: doc.features
+      }
+    });
+  });
+};
+
 exports.post = function(req, res) {
   Trip.create(req.body.trip , function(err, doc) {
     var mappedDoc = {

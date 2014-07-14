@@ -7,6 +7,8 @@ var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
 var db = require('mongoose');
 
+var getTripId;
+
 describe('Trips API', function() {
   before(function(done) {
     server.listen(9000);
@@ -44,7 +46,7 @@ describe('Trips API', function() {
     }, function(err, res, body) {
         expect(res.statusCode).to.eql(200);
         expect(body.trip.id).to.exist;
-        this.getTripFixture.id = body.trip.id;
+        getTripId = body.trip.id;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
         expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
       done();
@@ -54,13 +56,14 @@ describe('Trips API', function() {
   it('Gets a single trip', function(done) {
     request({
       url: 'http://localhost:' + '9000' + this.getTripsFixture.request.url +
-        '/' + this.getTripFixture.id,
+        '/' + getTripId,
       method: this.getTripsFixture.request.method
     }, function(err, res, body) {
       expect(res.statusCode).to.eql(200);
-      expect(body.id).to.eql(this.getTripFixture.id);
-      expect(body.name).to.eql(this.getTripFixture.response.trip.name);
-      expect(body.features).to.eql(this.getTripFixture.response.trip.features);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(getTripId);
+      expect(bodyObj.trip.name).to.eql(this.getTripFixture.response.trip.name);
+      expect(bodyObj.trip.features).to.eql(this.getTripFixture.response.trip.features);
       done();
     }.bind(this));
   });
