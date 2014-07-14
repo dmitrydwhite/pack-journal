@@ -12,8 +12,8 @@ App.TripEditRoute = Ember.Route.extend({
     });
   },
 
-  model: function(params) {
-    return this.store.find('trip', { id: params.id });
+  model: function() {
+    return this.modelFor('trip');
   }
 
   // actions: {

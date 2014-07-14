@@ -5,14 +5,23 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   routeLine: undefined,
 
+  createRoute: function(e) {
+    var addedPoints = e.layer.getLatLngs().map(function(point) {
+      return { lat: point.lat, lng: point.lng };
+    });
+
+    this.set('waypoints', addedPoints);
+  },
+
   didInsertElement: function() {
     this._super();
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
 
     this.drawTrip();
 
+    var featureGroup;
     if (this.get('mode') === 'edit') {
-      var featureGroup = L.featureGroup().addTo(this.get('map'));
+      featureGroup = L.featureGroup().addTo(this.get('map'));
 
       new L.Control.Draw({
         edit: {
@@ -28,6 +37,8 @@ App.MapDisplayComponent = Ember.Component.extend({
         }
       }).addTo(this.get('map'));
     }
+
+    this.get('map').on('draw:created', function(e) { this.createRoute(e); }.bind(this) );
   },
 
   drawTrip: function() {
@@ -36,7 +47,7 @@ App.MapDisplayComponent = Ember.Component.extend({
 
     if(this.get('waypoints') && this.get('waypoints').length > 0) {
       this.get('waypoints').forEach(function(point) {
-        routePoints.push([point.latitude, point.longitude]);
+        routePoints.push([point.lat, point.lng]);
       });
       this.set('routeLine',
         L.polyline(routePoints, { color: '#F99' }).addTo(this.get('map')));

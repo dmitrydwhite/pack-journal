@@ -9,8 +9,8 @@
         {
           "waypoints":
           [
-            { "latitude": 0.01, "longitude": 90.234 },
-            { "latitude": 99.2, "longitude": 78 }
+            { "lat": 0.01, "lng": 90.234 },
+            { "lat": 99.2, "lng": 78 }
           ]
         }
       }
@@ -23,8 +23,8 @@
       {
         "waypoints":
         [
-          { "latitude": 0.01, "longitude": 90.234 },
-          { "latitude": 99.2, "longitude": 78 }
+          { "lat": 0.01, "lng": 90.234 },
+          { "lat": 99.2, "lng": 78 }
         ]
       }
     }
