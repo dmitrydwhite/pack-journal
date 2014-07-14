@@ -1,7 +1,7 @@
 [![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url] [![Dependencies][david-image]][david-url]
 
 #Pack Journal
-Pack-Journal backpacking trip journal site
+Pack-Journal is a backpacking trip journal site
 
 ##Requirements
 * MongoDB
