@@ -22,9 +22,9 @@ App.TripSerializer = DS.RESTSerializer.extend({
       }
     };
 
-    if (options.includeId) {
-      json.id = trip.get('id');
-    }
+    // if (options.includeId) {
+    //   json.id = trip.get('id');
+    // }
 
     return json;
   }
