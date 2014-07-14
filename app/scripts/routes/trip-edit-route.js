@@ -2,7 +2,7 @@
 
 App.TripEditRoute = Ember.Route.extend({
   renderTemplate: function() {
-    this.render('map/default', {
+    this.render('map/edit', {
       outlet: 'map',
       into: 'main'
     });

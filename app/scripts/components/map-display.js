@@ -10,6 +10,24 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
 
     this.drawTrip();
+
+    if (this.get('mode') === 'edit') {
+      var featureGroup = L.featureGroup().addTo(this.get('map'));
+
+      new L.Control.Draw({
+        edit: {
+          featureGroup: featureGroup
+        },
+
+        draw: {
+          polygon: false,
+          polyline: true,
+          rectangle: false,
+          circle: false,
+          marker: false
+        }
+      }).addTo(this.get('map'));
+    }
   },
 
   drawTrip: function() {
