@@ -1,0 +1,32 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "/api/trips",
+    "json": {
+      "trip": {
+        "name": "Updated trip name",
+        "features":
+        {
+          "waypoints":
+          [
+            { "latitude": 0.01, "longitude": 90.234 },
+            { "latitude": 99.2, "longitude": 78 }
+          ]
+        }
+      }
+    }
+  },
+  "response": {
+    "trip": {
+      "name": "Updated trip name",
+      "features":
+      {
+        "waypoints":
+        [
+          { "latitude": 0.01, "longitude": 90.234 },
+          { "latitude": 99.2, "longitude": 78 }
+        ]
+      }
+    }
+  }
+}

@@ -7,7 +7,7 @@ var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
 var db = require('mongoose');
 
-var getTripId;
+var insertedTripId;
 
 describe('Trips API', function() {
   before(function(done) {
@@ -15,6 +15,7 @@ describe('Trips API', function() {
     this.getTripsFixture = __fixture('get-trips');
     this.postTripsFixture = __fixture('post-trips');
     this.getTripFixture = __fixture('get-trip');
+    this.putTripFixture = __fixture('put-trip');
     helpers.setUpDBFixtures().then(function() {done();}, done);
   });
 
@@ -46,24 +47,9 @@ describe('Trips API', function() {
     }, function(err, res, body) {
         expect(res.statusCode).to.eql(200);
         expect(body.trip.id).to.exist;
-        getTripId = body.trip.id;
+        insertedTripId = body.trip.id;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
         expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
-      done();
-    }.bind(this));
-  });
-
-  it('Gets a single trip', function(done) {
-    request({
-      url: 'http://localhost:' + '9000' + this.getTripsFixture.request.url +
-        '/' + getTripId,
-      method: this.getTripsFixture.request.method
-    }, function(err, res, body) {
-      expect(res.statusCode).to.eql(200);
-      var bodyObj = JSON.parse(body);
-      expect(bodyObj.trip.id).to.eql(getTripId);
-      expect(bodyObj.trip.name).to.eql(this.getTripFixture.response.trip.name);
-      expect(bodyObj.trip.features).to.eql(this.getTripFixture.response.trip.features);
       done();
     }.bind(this));
   });
@@ -80,4 +66,48 @@ describe('Trips API', function() {
       done();
     }.bind(this));
   });
+
+  it('Gets a single trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.getTripsFixture.request.url +
+        '/' + insertedTripId,
+      method: this.getTripsFixture.request.method
+    }, function(err, res, body) {
+      expect(res.statusCode).to.eql(200);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(insertedTripId);
+      expect(bodyObj.trip.name).to.eql(this.getTripFixture.response.trip.name);
+      expect(bodyObj.trip.features).to.eql(this.getTripFixture.response.trip.features);
+      done();
+    }.bind(this));
+  });
+
+  it('Updates and existing trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.putTripFixture.request.url +
+        '/' + insertedTripId,
+      method: this.putTripFixture.request.method
+    }, function(err, res, body) {
+      expect(res.statusCode).to.eql(200);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(insertedTripId);
+      expect(bodyObj.trip.name).to.eql(this.putTripFixture.response.trip.name);
+      expect(bodyObj.trip.features).to.eql(this.putTripFixture.response.trip.features);
+      done();
+    }.bind(this));
+  });
+
+  it('Changes a trip in the database on a PUT request', function(done) {
+    var Trip = db.model('Trip');
+    Trip.findById(insertedTripId, function(err, doc) {
+      expect(doc.name).to.eql(this.putTripFixture.request.json.trip.name);
+      expect(doc.features.waypoints[0])
+        .to.eql(this.putTripFixture.request.json.trip.features.waypoints[0]);
+      expect(doc.features.waypoints[1])
+        .to.eql(this.putTripFixture.request.json.trip.features.waypoints[1]);
+      expect(doc._id).to.eql(insertedTripId);
+      done();
+    }.bind(this));
+  });
+
 });
