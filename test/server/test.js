@@ -12,6 +12,7 @@ describe('Trips API', function() {
     server.listen(9000);
     this.getTripsFixture = __fixture('get-trips');
     this.postTripsFixture = __fixture('post-trips');
+    this.getTripFixture = __fixture('get-trip');
     helpers.setUpDBFixtures().then(function() {done();}, done);
   });
 
@@ -43,8 +44,23 @@ describe('Trips API', function() {
     }, function(err, res, body) {
         expect(res.statusCode).to.eql(200);
         expect(body.trip.id).to.exist;
+        this.getTripFixture.id = body.trip.id;
         expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
         expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
+      done();
+    }.bind(this));
+  });
+
+  it('Gets a single trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.getTripsFixture.request.url +
+        '/' + this.getTripFixture.id,
+      method: this.getTripsFixture.request.method
+    }, function(err, res, body) {
+      expect(res.statusCode).to.eql(200);
+      expect(body.id).to.eql(this.getTripFixture.id);
+      expect(body.name).to.eql(this.getTripFixture.response.trip.name);
+      expect(body.features).to.eql(this.getTripFixture.response.trip.features);
       done();
     }.bind(this));
   });

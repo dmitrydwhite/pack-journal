@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/trips"
+  },
+  "response": {
+    "trip": {
+      "name": "Testing the Post Trip",
+      "features":
+      {
+        "waypoints":
+        [
+          { "latitude": 47, "longitude": -122 },
+          { "latitude": 47.1, "longitude": -122.1 }
+        ]
+      }
+    }
+  }
+}
