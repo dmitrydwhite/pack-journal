@@ -2,7 +2,6 @@
 
 App.TripEditRoute = Ember.Route.extend({
   renderTemplate: function() {
-    console.log('in edit route');
     this.render('map/default', {
       outlet: 'map',
       into: 'main'
@@ -14,8 +13,7 @@ App.TripEditRoute = Ember.Route.extend({
   },
 
   model: function(params) {
-    console.log(params);
-    return this.store.find('trip', params.id);
+    return this.store.find('trip', { id: params.id });
   }
 
   // actions: {

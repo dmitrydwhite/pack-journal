@@ -15,7 +15,6 @@ App.TripSerializer = DS.RESTSerializer.extend({
   },
 
   serialize: function(trip, options) {
-    console.log('serializing');
     var json = {
       name: trip.get('name'),
       features: {
