@@ -16,7 +16,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     var routePoints = [];
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
 
-    if(this.get('waypoints')) {
+    if(this.get('waypoints') && this.get('waypoints').length > 0) {
       this.get('waypoints').forEach(function(point) {
         routePoints.push([point.latitude, point.longitude]);
       });
@@ -29,7 +29,9 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   waypointsDidChange: function() {
-    this.get('map').removeLayer(this.get('routeLine'));
+    if(this.get('routeLine')) {
+      this.get('map').removeLayer(this.get('routeLine'));
+    }
     this.drawTrip();
   }.observes('waypoints')
 });
