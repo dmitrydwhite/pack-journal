@@ -2,11 +2,10 @@
 
 App.TripDeleteRoute = Ember.Route.extend({
   afterModel: function(trip) {
-    console.log(Ember.inspect(trip));
     trip.deleteRecord();
     trip.save()
     .then(function() {
-      this.transtionTo('trips');
+      this.replaceWith('trips');
     }.bind(this));
   },
 
