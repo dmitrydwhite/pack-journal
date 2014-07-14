@@ -16,6 +16,7 @@ describe('Trips API', function() {
     this.postTripsFixture = __fixture('post-trips');
     this.getTripFixture = __fixture('get-trip');
     this.putTripFixture = __fixture('put-trip');
+    this.deleteTripFixture = __fixture('delete-trip');
     helpers.setUpDBFixtures().then(function() {done();}, done);
   });
 
@@ -109,4 +110,28 @@ describe('Trips API', function() {
       done();
     }.bind(this));
   });
+
+  it('Deletes a trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.deleteTripFixture.request.url +
+        '/' + insertedTripId,
+      method: this.deleteTripFixture.request.method
+    }, function(err, res, body) {
+      expect(res.statusCode).to.eql(200);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(insertedTripId);
+      expect(bodyObj.trip.name).to.eql(this.deleteTripFixture.response.trip.name);
+      expect(bodyObj.trip.features).to.eql(this.deleteTripFixture.response.trip.features);
+      done();
+    }.bind(this));
+  });
+
+  it('Deletes a trip from the database on a DELETE request', function(done) {
+    var Trip = db.model('Trip');
+    Trip.findById(insertedTripId, function(err, doc) {
+      expect(doc).to.not.exist;
+      done();
+    }.bind(this));
+  });
+
 });

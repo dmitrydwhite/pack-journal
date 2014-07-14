@@ -25,15 +25,4 @@ App.TripEditRoute = Ember.Route.extend({
     return this.modelFor('trip');
   }
 
-  // actions: {
-  //   saveTrip: function() {
-  //     var trip = this.store.createRecord('trip', {
-  //       name: this.get('controller.name')
-  //     });
-  //     trip.save()
-  //     .then(function(record) {
-  //       this.transitionTo('trip.edit', record);
-  //     }.bind(this));
-  //   }
-  // }
 });

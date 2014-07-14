@@ -6,6 +6,7 @@ Ember.Router.map(function () {
     this.resource('trip', { path: 'trips/:id' }, function() {
       this.route('index', { path: '/' });
       this.route('edit', { path: '/edit' });
+      this.route('delete', { path: '/delete' });
     });
   });
 });

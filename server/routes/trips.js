@@ -50,7 +50,18 @@ exports.put = function(req, res) {
         id: doc._id,
         name: doc.name,
         features: doc.features
+      };
+      res.json({ trip: mappedDoc });
+  });
+};
+
+exports.delete = function(req, res) {
+  Trip.findByIdAndRemove(req.params.id, {}, function(err, doc) {
+    var mappedDoc = {
+      id: doc._id,
+      name: doc.name,
+      features: doc.features
     };
     res.json({ trip: mappedDoc });
   });
-};
+}
