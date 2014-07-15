@@ -2,6 +2,7 @@
 
 var db = require('mongoose');
 var Promise = require('bluebird');
+var config = require('../../../server/config');
 
 exports.setUpTripFixtures = function() {
   var trip = db.model('Trip');
@@ -19,16 +20,11 @@ exports.tearDownTripFixtures = function() {
 };
 
 exports.setUpUserFixtures = function() {
-  // var trip = db.model('Trip');
-  // this.getTripsFixture = __fixture('get-trips');
-  // trip.collection.drop();
-  // return Promise.all([
-  //   trip.create(this.getTripsFixture.response.trips[0]),
-  //   trip.create(this.getTripsFixture.response.trips[1])
-  // ]);
+  var user = db.model('User');
+  user.collection.drop();
 };
 
 exports.tearDownUserFixtures = function() {
-  // var trip = db.model('Trip');
-  // return trip.collection.drop();
+  var user = db.model('User');
+  user.collection.drop();
 };

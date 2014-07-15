@@ -12,11 +12,11 @@ describe('User API', function() {
     server.listen(9001, function() {
       done();
     });
-    // helpers.setUpUserFixtures().then(function() {done();}, done);
+    helpers.setUpUserFixtures();
   });
 
   after(function() {
-    // helpers.tearDownUserFixtures();
+    helpers.tearDownUserFixtures();
   });
 
   it('Correctly responds to POST request', function(done) {

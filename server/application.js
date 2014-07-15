@@ -14,10 +14,18 @@ var config = require('./config');
 
 var app = express();
 
+
+/*
+Set up database connection to mongo, including authentication framework
+ */
 global.db = require('mongoose');
 db.connect(config.db.connection);
-var tripRoutes = require('./routes/trips');
 
+var admit = require('admit-one')('mongo', {
+  mongo: {
+    db: config.db.connection
+  }
+});
 
 
 if (config.env === 'development') {
@@ -36,12 +44,22 @@ if (config.env === 'production') {
 app.use(bodyParser.json());
 app.use(methodOverride());
 
+
 var api = express.Router();
+
+// Routes for trip API
+var tripRoutes = require('./routes/trips');
 api.get('/trips', tripRoutes.getAll);
 api.get('/trips/:id', tripRoutes.get);
 api.post('/trips', tripRoutes.post);
 api.put('/trips/:id', tripRoutes.put);
 api.delete('/trips/:id', tripRoutes.delete);
+
+// Routes for User API
+var userRoutes = require('./routes/users');
+api.post('/users', admit.create, userRoutes.post);
+
+// Prefix all api routes with '/api' path
 app.use('/api', api);
 
 // expose app
