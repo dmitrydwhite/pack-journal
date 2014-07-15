@@ -14,7 +14,7 @@ App.SignupRoute = Ember.Route.extend({
       this.currentModel.save() // create the user
       .then(function() {
         session.login({ username: self.get('model.username') });
-        self.transitionToRoute('trips');
+        self.transitionTo('trips');
       })
       .catch(function(error) {
         if (error.responseJSON) { error = error.responseJSON; }
