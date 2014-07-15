@@ -32,4 +32,15 @@ describe('User API', function() {
     }.bind(this));
   });
 
+  it('Inserts a user into the database on a POST request', function(done) {
+    var User = db.model('User');
+    User.find({ username: this.postUserFixture.request.json.user.username }, function(err, docs) {
+      expect(docs[0].username).to.eql(this.postUserFixture.request.json.user.username);
+      expect(docs[0].passwordDigest).to.exist;
+      expect(docs[0]._id).to.exist;
+      expect(docs[0].sessionDigests.length).to.be.eql(1);
+      done();
+    }.bind(this));
+  });
+
 });
