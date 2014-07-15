@@ -4,6 +4,10 @@ App.TripAdapter = DS.RESTAdapter.extend({
   namespace: 'api'
 });
 
+App.UserAdapter = DS.RESTAdapter.extend({
+  namespace: 'api'
+});
+
 App.TripSerializer = DS.RESTSerializer.extend({
   extractArray: function(store, type, payload) {
     payload.trips.forEach(function(trip) {
