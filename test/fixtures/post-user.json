@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/users",
+    "json": {
+      "user": {
+        "username": "mradamh",
+        "password": "thisisnotmyrealpassword"
+      }
+    }
+  },
+  "response": {
+    "user": {
+      "username": "mradamh"
+    }
+  }
+}

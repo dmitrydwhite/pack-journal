@@ -11,13 +11,16 @@ var insertedTripId;
 
 describe('Trips API', function() {
   before(function(done) {
-    server.listen(9000);
     this.getTripsFixture = __fixture('get-trips');
     this.postTripsFixture = __fixture('post-trips');
     this.getTripFixture = __fixture('get-trip');
     this.putTripFixture = __fixture('put-trip');
     this.deleteTripFixture = __fixture('delete-trip');
-    helpers.setUpTripFixtures().then(function() {done();}, done);
+    helpers.setUpTripFixtures().then(function() {
+      server.listen(9000, function() {
+        done();
+      });
+    }, done);
   });
 
   after(function() {
