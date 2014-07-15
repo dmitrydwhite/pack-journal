@@ -56,6 +56,7 @@ describe('User API', function() {
         method: this.authUserFixture.request.method,
         headers: { 'Authorization': this.authUserFixture.request.authorization }
       }, function(err, res, body) {
+        expect(JSON.parse(body)).to.eql({ error: 'invalid credentials' });
         expect(res.statusCode).to.eql(401);
         done();
       });
@@ -63,6 +64,6 @@ describe('User API', function() {
   });
 
   // TODO: implement fixture and test for login
-  it.skip('Logs in an existing user using password')
+  it.skip('Logs in an existing user using password');
 
 });
