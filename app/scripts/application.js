@@ -11,6 +11,7 @@ Ember.config = {
 
 require('./components/map-display.js');
 require('./models/trip-model');
+require('./models/user-model');
 require('./router');
 require('./routes/trips-route');
 require('./routes/trip-route');
