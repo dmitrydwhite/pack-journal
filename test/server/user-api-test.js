@@ -62,4 +62,7 @@ describe('User API', function() {
     }.bind(this));
   });
 
+  // TODO: implement fixture and test for login
+  it.skip('Logs in an existing user using password')
+
 });
