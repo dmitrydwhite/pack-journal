@@ -10,7 +10,7 @@ App.SignupRoute = Ember.Route.extend({
       var session = this.get('session');
       var self = this;
 
-      this.set('error', undefined);
+      this.controller.set('error', undefined);
       this.currentModel.save() // create the user
       .then(function() {
         session.login({ username: self.get('model.username') });
@@ -19,7 +19,7 @@ App.SignupRoute = Ember.Route.extend({
       .catch(function(error) {
         if (error.responseJSON) { error = error.responseJSON; }
         if (error.error) { error = error.error; }
-        self.set('error', error);
+        self.controller.set('error', error);
       });
     }
   }
