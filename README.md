@@ -1,4 +1,4 @@
-[![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url] [![Dependencies][david-image]][david-url]
+[![Build status][travis-image]][travis-url] [![Code Climate][codeclimate-image]] [codeclimate-url] [![Dependencies][david-image]][david-url] [![Coverage Status][coverage-image]][coverage-url]
 
 #Pack Journal
 Pack-Journal is a backpacking trip journal site
@@ -53,3 +53,5 @@ git branch -D release
 [david-url]: https://david-dm.org/dmitrydwhite/pack-journal
 [travis-url]: http://travis-ci.org/dmitrydwhite/pack-journal
 [travis-image]: https://secure.travis-ci.org/dmitrydwhite/pack-journal.png?branch=master
+[coverage-image]: https://coveralls.io/repos/dmitrydwhite/pack-journal/badge.png
+[coverage-url]: https://coveralls.io/r/dmitrydwhite/pack-journal
