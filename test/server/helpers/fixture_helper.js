@@ -19,9 +19,11 @@ exports.tearDownTripFixtures = function() {
   return trip.collection.drop();
 };
 
-exports.setUpUserFixtures = function() {
+exports.setUpUserFixtures = function(done) {
+  this.authUserFixture = __fixture('auth-user');
   var user = db.model('User');
   user.collection.drop();
+  user.create(this.authUserFixture.db);
 };
 
 exports.tearDownUserFixtures = function() {

@@ -9,6 +9,7 @@ var db = require('mongoose');
 describe('User API', function() {
   before(function(done) {
     this.postUserFixture = __fixture('post-user');
+    this.authUserFixture = __fixture('auth-user');
     server.listen(9001, function() {
       done();
     });
@@ -40,6 +41,24 @@ describe('User API', function() {
       expect(docs[0]._id).to.exist;
       expect(docs[0].sessionDigests.length).to.be.eql(1);
       done();
+    }.bind(this));
+  });
+
+  it('Authenticates an existing user and can delete a session (i.e. logout)', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + this.authUserFixture.request.url,
+      method: this.authUserFixture.request.method,
+      headers: { 'Authorization': this.authUserFixture.request.authorization}
+    }, function(err, res, body) {
+      expect(JSON.parse(body)).to.eql(this.authUserFixture.response);
+      request({
+        url: 'http://localhost:' + '9000' + this.authUserFixture.request.url,
+        method: this.authUserFixture.request.method,
+        headers: { 'Authorization': this.authUserFixture.request.authorization }
+      }, function(err, res, body) {
+        expect(res.statusCode).to.eql(401);
+        done();
+      });
     }.bind(this));
   });
 
