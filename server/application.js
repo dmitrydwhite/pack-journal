@@ -55,11 +55,16 @@ api.post('/trips', tripRoutes.post);
 api.put('/trips/:id', tripRoutes.put);
 api.delete('/trips/:id', tripRoutes.delete);
 
-// Routes for User and Sessions API
+// Routes for User and Sessions API that do not require authentication
 var userRoutes = require('./routes/users');
 var sessionRoutes = require('./routes/sessions')
 api.post('/users', admit.create, userRoutes.post);
 api.post('/sessions', admit.authenticate, sessionRoutes.post);
+
+// Authenticated Routes
+api.use(admit.authorize);
+// Logout route (delete the current session)
+api.delete('/sessions/current', admit.invalidate, sessionRoutes.delete);
 
 // Prefix all api routes with '/api' path
 app.use('/api', api);

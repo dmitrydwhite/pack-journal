@@ -9,3 +9,8 @@ exports.post = function(req, res) {
     }
   });
 };
+
+exports.delete = function(req, res) {
+  if (req.auth.user) { throw new Error('Session not invalidated.'); }
+  res.json({ status: 'ok' });
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 App.LoginController = Ember.Controller.extend({
   actions: {
     authenticate: function() {
