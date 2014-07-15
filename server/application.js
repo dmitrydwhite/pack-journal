@@ -55,9 +55,11 @@ api.post('/trips', tripRoutes.post);
 api.put('/trips/:id', tripRoutes.put);
 api.delete('/trips/:id', tripRoutes.delete);
 
-// Routes for User API
+// Routes for User and Sessions API
 var userRoutes = require('./routes/users');
+var sessionRoutes = require('./routes/sessions')
 api.post('/users', admit.create, userRoutes.post);
+api.post('/sessions', admit.authenticate, sessionRoutes.post);
 
 // Prefix all api routes with '/api' path
 app.use('/api', api);

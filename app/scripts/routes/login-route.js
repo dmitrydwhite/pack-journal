@@ -12,7 +12,7 @@ App.LoginRoute = Ember.Route.extend({
     authenticate: function() {
       var self = this;
       var session = this.get('session');
-      var credentials = this.getProperties('username', 'password');
+      var credentials = this.controllerFor('login').getProperties('username', 'password');
       this.set('error', undefined);
       this.set('password', undefined);
       session.authenticate(credentials).then(function() {
