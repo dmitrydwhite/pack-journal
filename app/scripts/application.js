@@ -15,6 +15,8 @@ require('./models/trip-model');
 require('./models/user-model');
 require('./router');
 require('./routes/signup-route');
+require('./routes/login-route');
+require('./routes/logout-route');
 require('./routes/trips-route');
 require('./routes/trip-route');
 require('./routes/trips-add-route');

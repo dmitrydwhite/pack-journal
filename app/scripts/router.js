@@ -1,7 +1,9 @@
 'use strict';
 
 Ember.Router.map(function () {
-  this.route('signup', {path: '/signup'});
+  this.route('signup', { path: '/signup' });
+  this.route('login', { path: '/login' });
+  this.route('logout', { path: '/logout' });
   this.resource('trips', { path: '/' }, function() {
     this.route('add', { path: '/add' });
     this.resource('trip', { path: 'trips/:id' }, function() {

@@ -4,7 +4,13 @@
        <ul class="button-group">
          <li>{{#link-to "trips.add" class="button"}}Add{{/link-to}}</li>
          <li>{{#link-to "application" class="button"}}Home{{/link-to}}</li>
-         <li><a href="#" class="button">Logout</a></li>
+         <li>
+            {{#if session.isAuthenticated }}
+              {{#link-to "logout" class="button"}}Logout{{/link-to}}
+            {{else}}
+              {{#link-to "login" class="button"}}Login{{/link-to}}
+            {{/if}}
+         </li>
         </ul>
       </div>
       <h1>Pack Journal</h1>
