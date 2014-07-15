@@ -17,11 +17,11 @@ describe('Trips API', function() {
     this.getTripFixture = __fixture('get-trip');
     this.putTripFixture = __fixture('put-trip');
     this.deleteTripFixture = __fixture('delete-trip');
-    helpers.setUpDBFixtures().then(function() {done();}, done);
+    helpers.setUpTripFixtures().then(function() {done();}, done);
   });
 
   after(function() {
-    helpers.tearDownDBFixtures();
+    helpers.tearDownTripFixtures();
   });
 
   it('Gets a valid list of all trips', function(done) {
