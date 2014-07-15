@@ -64,4 +64,4 @@ exports.delete = function(req, res) {
     };
     res.json({ trip: mappedDoc });
   });
-}
+};

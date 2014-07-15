@@ -57,7 +57,7 @@ api.delete('/trips/:id', tripRoutes.delete);
 
 // Routes for User and Sessions API that do not require authentication
 var userRoutes = require('./routes/users');
-var sessionRoutes = require('./routes/sessions')
+var sessionRoutes = require('./routes/sessions');
 api.post('/users', admit.create, userRoutes.post);
 api.post('/sessions', admit.authenticate, sessionRoutes.post);
 

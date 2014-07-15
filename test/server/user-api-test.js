@@ -63,6 +63,6 @@ describe('User API', function() {
   });
 
   // TODO: implement fixture and test for login
-  it.skip('Logs in an existing user using password')
+  it.skip('Logs in an existing user using password');
 
 });
