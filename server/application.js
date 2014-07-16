@@ -47,13 +47,6 @@ app.use(methodOverride());
 
 var api = express.Router();
 
-// Routes for trip API
-var tripRoutes = require('./routes/trips');
-api.get('/trips', tripRoutes.getAll);
-api.get('/trips/:id', tripRoutes.get);
-api.post('/trips', tripRoutes.post);
-api.put('/trips/:id', tripRoutes.put);
-api.delete('/trips/:id', tripRoutes.delete);
 
 // Routes for User and Sessions API that do not require authentication
 var userRoutes = require('./routes/users');
@@ -65,6 +58,14 @@ api.post('/sessions', admit.authenticate, sessionRoutes.post);
 api.use(admit.authorize);
 // Logout route (delete the current session)
 api.delete('/sessions/current', admit.invalidate, sessionRoutes.delete);
+
+// Routes for trip API
+var tripRoutes = require('./routes/trips');
+api.get('/trips', tripRoutes.getAll);
+api.get('/trips/:id', tripRoutes.get);
+api.post('/trips', tripRoutes.post);
+api.put('/trips/:id', tripRoutes.put);
+api.delete('/trips/:id', tripRoutes.delete);
 
 // Prefix all api routes with '/api' path
 app.use('/api', api);

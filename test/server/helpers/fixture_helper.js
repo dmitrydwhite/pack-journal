@@ -2,7 +2,6 @@
 
 var db = require('mongoose');
 var Promise = require('bluebird');
-var config = require('../../../server/config');
 
 exports.setUpTripFixtures = function() {
   var trip = db.model('Trip');
@@ -19,11 +18,13 @@ exports.tearDownTripFixtures = function() {
   return trip.collection.drop();
 };
 
-exports.setUpUserFixtures = function(done) {
+exports.setUpUserFixtures = function(cb) {
   this.authUserFixture = __fixture('auth-user');
   var user = db.model('User');
   user.collection.drop();
-  user.create(this.authUserFixture.db);
+  user.create(this.authUserFixture.db, function(err, doc) {
+    cb(err, doc);
+  });
 };
 
 exports.tearDownUserFixtures = function() {
