@@ -1,0 +1,59 @@
+{
+  "initialData": {
+    "trip": {
+      "name": "Testing the Post Trip",
+      "features":
+      {
+        "waypoints":
+        [
+          { "lat": 47, "lng": -122 },
+          { "lat": 47.1, "lng": -122.1 }
+        ]
+      }
+    }
+  },
+
+  "afterPutData": {
+    "trip": {
+      "id": null,
+      "name": "Updated trip name",
+      "features":
+      {
+        "waypoints":
+        [
+          { "lat": 0.01, "lng": 90.234 },
+          { "lat": 99.2, "lng": 78 }
+        ]
+      }
+    }
+  },
+
+  "url" : "/api/trips",
+
+  "getManyData": {
+    "trips": [
+      {
+        "name": "Dmitry's Big Adventure",
+        "features":
+        {
+          "waypoints":
+          [
+            { "lat": 47, "lng": -122 },
+            { "lat": 47.1, "lng": -122.1 }
+          ]
+        }
+      },
+      {
+        "name": "Adam's Walkabout",
+        "features":
+        {
+          "waypoints":
+          [
+            { "lat": 47.2, "lng": -121.98 },
+            { "lat": 47.15, "lng": -122.11 }
+          ]
+        }
+      }
+    ]
+  }
+}

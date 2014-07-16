@@ -1,9 +1,12 @@
-var Schema = db.Schema;
+var Promise = require('bluebird');
 
-var UserSchema = new Schema({
+var UserSchema = new db.Schema({
   username: String,
   passwordDigest: String,
   sessionDigests: [String]
 });
 
-exports.User = db.model('User', UserSchema);
+var User = Promise.promisifyAll(db.model('User', UserSchema));
+Promise.promisifyAll(User.prototype);
+
+exports.User = User;
