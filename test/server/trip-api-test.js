@@ -118,6 +118,7 @@ describe('Trips API', function() {
     var Trip = db.model('Trip');
     Trip.findById(insertedTripId, function(err, doc) {
       expect(doc.name).to.eql(this.putTripFixture.request.json.trip.name);
+      expect(doc.owner).to.eql(insertedUserId);
       expect(doc.features.waypoints[0])
         .to.eql(this.putTripFixture.request.json.trip.features.waypoints[0]);
       expect(doc.features.waypoints[1])
