@@ -96,16 +96,19 @@ describe('Trips API', function() {
     }.bind(this));
   });
 
-  it('Updates and existing trip', function(done) {
+  it('Updates an existing trip', function(done) {
+    var requestJSON = this.putTripFixture.request.json;
+    requestJSON.trip.owner = insertedUserId;
     request({
       url: 'http://localhost:' + '9000' + this.putTripFixture.request.url +
         '/' + insertedTripId,
       method: this.putTripFixture.request.method,
-      json: this.putTripFixture.request.json
+      json: requestJSON
     }, function(err, res, body) {
       expect(res.statusCode).to.eql(200);
       expect(body.trip.id).to.eql(insertedTripId);
       expect(body.trip.name).to.eql(this.putTripFixture.response.trip.name);
+      expect(body.trip.owner).to.eql(insertedUserId.toString());
       expect(body.trip.features).to.eql(this.putTripFixture.response.trip.features);
       done();
     }.bind(this));
