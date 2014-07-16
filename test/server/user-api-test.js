@@ -41,16 +41,20 @@ describe('User API', function() {
     });
   });
 
-//   it('Inserts a user into the database on a POST request', function(done) {
-//     var User = db.model('User');
-//     User.find({ username: this.postUserFixture.request.json.user.username }, function(err, docs) {
-//       expect(docs[0].username).to.eql(this.postUserFixture.request.json.user.username);
-//       expect(docs[0].passwordDigest).to.exist;
-//       expect(docs[0]._id).to.exist;
-//       expect(docs[0].sessionDigests.length).to.be.eql(1);
-//       done();
-//     }.bind(this));
-//   });
+  it('Inserts a user into the database on a POST request', function(done) {
+    var User = require('../../server/models/user').User;
+    User.findOneAsync({ username: userFixture.apiFixture.user.username })
+    .then(function(doc) {
+      expect(doc.username).to.eql(userFixture.apiFixture.user.username);
+      expect(doc.passwordDigest).to.exist;
+      expect(doc._id).to.exist;
+      expect(doc.sessionDigests.length).to.be.eql(1);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
 //   it('Authenticates an existing user and can delete a session (i.e. logout)', function(done) {
 //     request({
