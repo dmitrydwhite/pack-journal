@@ -11,6 +11,7 @@ exports.getAll = function(req, res) {
       return {
         id  : doc._id,
         name: doc.name,
+        owner: doc.owner,
         features: doc.features
       };
     });
@@ -24,6 +25,7 @@ exports.get = function(req, res) {
       trip: {
         id: doc._id,
         name: doc.name,
+        owner: doc.owner,
         features: doc.features
       }
     });
@@ -31,9 +33,10 @@ exports.get = function(req, res) {
 };
 
 exports.post = function(req, res) {
-  Trip.create(req.body.trip , function(err, doc) {
+  Trip.create(req.body.trip, function(err, doc) {
     var mappedDoc = {
       id: doc._id,
+      owner: doc.owner,
       name: doc.name,
       features: doc.features
     };
@@ -49,6 +52,7 @@ exports.put = function(req, res) {
       var mappedDoc = {
         id: doc._id,
         name: doc.name,
+        owner: doc.owner,
         features: doc.features
       };
       res.json({ trip: mappedDoc });
@@ -60,6 +64,7 @@ exports.delete = function(req, res) {
     var mappedDoc = {
       id: doc._id,
       name: doc.name,
+      owner: doc.owner,
       features: doc.features
     };
     res.json({ trip: mappedDoc });

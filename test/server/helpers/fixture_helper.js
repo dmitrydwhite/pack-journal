@@ -29,3 +29,10 @@ exports.tearDownUserFixtures = function() {
   var user = db.model('User');
   user.collection.drop();
 };
+
+exports.getAUserId = function(cb) {
+  var user = db.model('User');
+  user.findOne({}, function(err, doc) {
+    cb(err, doc);
+  });
+};
