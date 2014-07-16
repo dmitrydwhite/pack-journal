@@ -138,6 +138,7 @@ describe('Trips API', function() {
       var bodyObj = JSON.parse(body);
       expect(bodyObj.trip.id).to.eql(insertedTripId);
       expect(bodyObj.trip.name).to.eql(this.deleteTripFixture.response.trip.name);
+      expect(bodyObj.trip.owner).to.eql(insertedUserId.toString());
       expect(bodyObj.trip.features).to.eql(this.deleteTripFixture.response.trip.features);
       done();
     }.bind(this));
