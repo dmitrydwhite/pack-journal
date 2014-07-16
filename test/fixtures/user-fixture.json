@@ -1,0 +1,25 @@
+{
+  "url": "/api/users/",
+  "dbFixtures": [
+    {
+      "username": "adam",
+      "passwordDigest" : "$2a$12$Ot0arKCblUgzhNjNSpUUtO4rzgX/rLoRyopszGImMSG2vj3VGoE2K",
+      "sessionDigests" : [ "9f561601b8d96caad5330097021815b967c40c4b" ]
+    },
+    {
+      "username" : "dmitry",
+      "passwordDigest" : "$2a$12$eVk4yWMxaQVrrZvV6kO/2OOFbJkMBZpSxUQ/4lp50jZ60ZCMN4BHG",
+      "sessionDigests" : [ "14cda7c9136618d0bfe76fc153036be43215e984" ]
+    }
+  ],
+  "dbTokenAuths": [
+    { "authorization": "Token 4fad6a7b9c944608b0510693dd90c4ef" },
+    { "authorization": "Token 11e4e529f22d41c0b6f5cc3bd2af2145" }
+  ],
+  "apiFixtures": {
+    "user": {
+      "username": "mradamh",
+      "password": "notarealpassword"
+    }
+  }
+}

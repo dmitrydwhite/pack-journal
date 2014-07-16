@@ -1,33 +1,45 @@
 'use strict';
 
-var db = require('mongoose');
 var Promise = require('bluebird');
+var Trip = require('../../../server/models/trip').Trip;
+var User = require('../../../server/models/user').User;
+var tripFixture = __fixture('trip-fixture');
+var userFixture = __fixture('user-fixture');
+var createdUserId;
 
 exports.setUpTripFixtures = function() {
-  var trip = db.model('Trip');
-  this.getTripsFixture = __fixture('get-trips');
-  trip.collection.drop();
+  var self = this;
+
   return Promise.all([
-    trip.create(this.getTripsFixture.response.trips[0]),
-    trip.create(this.getTripsFixture.response.trips[1])
-  ]);
+    self.tearDownTripFixtures(),
+    self.tearDownUserFixtures()
+  ]).then(function() {
+    return self.setUpUserFixtures();
+  }).then(function() {
+    var trip = tripFixture.getManyData.trips[0];
+    trip.owner = createdUserId;
+    return Trip.createAsync(trip);
+  }).then(function() {
+    var trip = tripFixture.getManyData.trips[1];
+    trip.owner = createdUserId;
+    return Trip.createAsync(tripFixture.getManyData.trips[1]);
+  });
 };
 
 exports.tearDownTripFixtures = function() {
-  var trip = db.model('Trip');
-  return trip.collection.drop();
+  return Trip.removeAsync();
 };
 
-exports.setUpUserFixtures = function(cb) {
-  this.authUserFixture = __fixture('auth-user');
-  var user = db.model('User');
-  user.collection.drop();
-  user.create(this.authUserFixture.db, function(err, doc) {
-    cb(err, doc);
+exports.setUpUserFixtures = function() {
+  return User.createAsync(userFixture.dbFixtures[0])
+  .then(function() {
+    return User.createAsync(userFixture.dbFixtures[1]);
+  })
+  .then(function(user) {
+    createdUserId = user._id;
   });
 };
 
 exports.tearDownUserFixtures = function() {
-  var user = db.model('User');
-  user.collection.drop();
+  return User.removeAsync();
 };

@@ -3,6 +3,7 @@
 var config = require('./config');
 if (config.env === 'production') { require('newrelic'); }
 
+var Promise = require('bluebird');
 var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
@@ -18,7 +19,7 @@ var app = express();
 /*
 Set up database connection to mongo, including authentication framework
  */
-global.db = require('mongoose');
+global.db = Promise.promisifyAll(require('mongoose'));
 db.connect(config.db.connection);
 
 var admit = require('admit-one')('mongo', {
