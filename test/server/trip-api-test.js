@@ -8,6 +8,7 @@ var _ = require('lodash');
 var db = require('mongoose');
 
 var insertedTripId;
+var insertedUserId;
 
 describe('Trips API', function() {
   before(function(done) {
@@ -47,8 +48,9 @@ describe('Trips API', function() {
 
   it('Correctly responds to POST request', function(done) {
     helpers.getAUserId(function(err, doc) {
+      insertedUserId = doc._id;
       var requestJson = this.postTripsFixture.request.json;
-      requestJson.trip.owner = doc._id;
+      requestJson.trip.owner = insertedUserId;
       request({
         url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
         method: this.postTripsFixture.request.method,
@@ -69,6 +71,7 @@ describe('Trips API', function() {
     var Trip = db.model('Trip');
     Trip.find({ name: this.postTripsFixture.request.json.trip.name }, function(err, docs) {
       expect(docs[0].name).to.eql(this.postTripsFixture.request.json.trip.name);
+      expect(docs[0].owner).to.eql(insertedUserId);
       expect(docs[0].features.waypoints[0])
         .to.eql(this.postTripsFixture.request.json.trip.features.waypoints[0]);
       expect(docs[0].features.waypoints[1])
