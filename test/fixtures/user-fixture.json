@@ -16,7 +16,7 @@
     { "authorization": "Token 4fad6a7b9c944608b0510693dd90c4ef" },
     { "authorization": "Token 11e4e529f22d41c0b6f5cc3bd2af2145" }
   ],
-  "apiFixtures": {
+  "apiFixture": {
     "user": {
       "username": "mradamh",
       "password": "notarealpassword"

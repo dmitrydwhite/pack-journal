@@ -1,41 +1,45 @@
-// 'use strict';
+'use strict';
 
-// var expect = require('chai').expect;
-// var request = require('request');
-// var server = require('../../server/application');
-// var helpers = require('./helpers/fixture_helper');
+var expect = require('chai').expect;
+var Promise = require('bluebird');
+var request = Promise.promisify(require('request'));
+var server = require('../../server/application');
+var helpers = require('./helpers/fixture_helper');
+var userFixture = __fixture('user-fixture');
 
-// describe('User API', function() {
-//   before(function(done) {
-//     this.postUserFixture = __fixture('post-user');
-//     this.authUserFixture = __fixture('auth-user');
-//     Promise(
-//       return helpers.setUpUserFixtures()
-//     )
-//     .then(function() {
-//       server.listen(9001);, function() {
-//     })
-//     .then(function() {
-//       done();
-//     });
-//   });
+describe('User API', function() {
+  before(function(done) {
+    helpers.setUpUserFixtures()
+    .then(function() {
+      server.listen(9001);
+      done();
+    })
+    .catch(function(e) {
+      console.log('Unable to set up trip fixtures and start server:', e);
+      done(e);
+    });
+  });
 
-//   after(function() {
-//     helpers.tearDownUserFixtures();
-//   });
+  after(function() {
+    helpers.tearDownUserFixtures();
+  });
 
-//   it('Correctly responds to POST request', function(done) {
-//     request({
-//       url: 'http://localhost:' + '9000' + this.postUserFixture.request.url,
-//       method: this.postUserFixture.request.method,
-//       json: this.postUserFixture.request.json
-//     }, function(err, res, body) {
-//         expect(res.statusCode).to.eql(200);
-//         expect(body.user.id).to.exist;
-//         expect(body.user.username).to.eql(this.postUserFixture.response.user.username);
-//       done();
-//     }.bind(this));
-//   });
+  it('Correctly responds to POST request', function(done) {
+    request({
+      url: 'http://localhost:' + '9001' + userFixture.url,
+      method: 'POST',
+      json: userFixture.apiFixture
+    })
+    .spread(function(res, body) {
+      expect(res.statusCode).to.eql(200);
+      expect(body.user.id).to.exist;
+      expect(body.user.username).to.eql(userFixture.apiFixture.user.username);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
 //   it('Inserts a user into the database on a POST request', function(done) {
 //     var User = db.model('User');
@@ -70,4 +74,4 @@
 //   // TODO: implement fixture and test for login
 //   it.skip('Logs in an existing user using password');
 
-// });
+});
