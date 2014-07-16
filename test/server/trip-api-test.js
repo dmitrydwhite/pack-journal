@@ -18,9 +18,11 @@ describe('Trips API', function() {
     this.putTripFixture = __fixture('put-trip');
     this.deleteTripFixture = __fixture('delete-trip');
     helpers.setUpTripFixtures().then(function() {
-      helpers.setUpUserFixtures();
-      server.listen(9000, function() {
-        done();
+      helpers.setUpUserFixtures(function(err, doc) {
+        insertedUserId = doc._id;
+        server.listen(9000, function() {
+          done();
+        });
       });
     }, done);
   });
@@ -47,23 +49,20 @@ describe('Trips API', function() {
   });
 
   it('Correctly responds to POST request', function(done) {
-    helpers.getAUserId(function(err, doc) {
-      insertedUserId = doc._id;
-      var requestJson = this.postTripsFixture.request.json;
-      requestJson.trip.owner = insertedUserId;
-      request({
-        url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
-        method: this.postTripsFixture.request.method,
-        json: requestJson
-      }, function(err, res, body) {
-          expect(res.statusCode).to.eql(200);
-          expect(body.trip.id).to.exist;
-          insertedTripId = body.trip.id;
-          expect(body.trip.owner).to.eql(doc._id.toString());
-          expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
-          expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
-        done();
-      }.bind(this));
+    var requestJson = this.postTripsFixture.request.json;
+    requestJson.trip.owner = insertedUserId;
+    request({
+      url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
+      method: this.postTripsFixture.request.method,
+      json: requestJson
+    }, function(err, res, body) {
+        expect(res.statusCode).to.eql(200);
+        expect(body.trip.id).to.exist;
+        insertedTripId = body.trip.id;
+        expect(body.trip.owner).to.eql(insertedUserId.toString());
+        expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
+        expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
+      done();
     }.bind(this));
   });
 

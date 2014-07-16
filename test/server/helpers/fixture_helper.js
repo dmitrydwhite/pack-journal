@@ -18,21 +18,16 @@ exports.tearDownTripFixtures = function() {
   return trip.collection.drop();
 };
 
-exports.setUpUserFixtures = function() {
+exports.setUpUserFixtures = function(cb) {
   this.authUserFixture = __fixture('auth-user');
   var user = db.model('User');
   user.collection.drop();
-  user.create(this.authUserFixture.db);
+  user.create(this.authUserFixture.db, function(err, doc) {
+    cb(err, doc);
+  });
 };
 
 exports.tearDownUserFixtures = function() {
   var user = db.model('User');
   user.collection.drop();
-};
-
-exports.getAUserId = function(cb) {
-  var user = db.model('User');
-  user.findOne({}, function(err, doc) {
-    cb(err, doc);
-  });
 };

@@ -10,10 +10,11 @@ describe('User API', function() {
   before(function(done) {
     this.postUserFixture = __fixture('post-user');
     this.authUserFixture = __fixture('auth-user');
-    server.listen(9001, function() {
-      done();
+    helpers.setUpUserFixtures(function(/*err, doc*/) {
+      server.listen(9001, function() {
+        done();
+      });
     });
-    helpers.setUpUserFixtures();
   });
 
   after(function() {
