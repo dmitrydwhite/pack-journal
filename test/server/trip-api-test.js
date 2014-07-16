@@ -8,6 +8,7 @@ var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
 var tripFixture = __fixture('trip-fixture');
 var userFixture = __fixture('user-fixture');
+var Trip = require('../../server/models/trip').Trip;
 
 describe('Trips API', function() {
   before(function(done) {
@@ -18,7 +19,7 @@ describe('Trips API', function() {
     })
     .catch(function(e) {
       console.log('Unable to set up trip fixtures and start server:', e);
-      done();
+      done(e);
     });
   });
 
@@ -47,107 +48,131 @@ describe('Trips API', function() {
     });
   });
 
-  // it.skip('Correctly responds to POST request', function(done) {
-  //   var requestJson = this.postTripsFixture.request.json;
-  //   requestJson.trip.owner = insertedUserId;
-  //   request({
-  //     url: 'http://localhost:' + '9000' + this.postTripsFixture.request.url,
-  //     method: this.postTripsFixture.request.method,
-  //     json: requestJson
-  //   }, function(err, res, body) {
-  //       expect(res.statusCode).to.eql(200);
-  //       expect(body.trip.id).to.exist;
-  //       insertedTripId = body.trip.id;
-  //       expect(body.trip.owner).to.eql(insertedUserId.toString());
-  //       expect(body.trip.name).to.eql(this.postTripsFixture.response.trip.name);
-  //       expect(body.trip.features).to.eql(this.postTripsFixture.response.trip.features);
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Correctly responds to POST request', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + tripFixture.url,
+      method: 'POST',
+      headers: userFixture.dbTokenAuths[0],
+      json: tripFixture.initialData
+    })
+    .spread(function(res, body) {
+        expect(res.statusCode).to.eql(200);
+        expect(body.trip.id).to.exist;
+        expect(body.trip.name).to.eql(tripFixture.initialData.trip.name);
+        expect(body.trip.features).to.eql(tripFixture.initialData.trip.features);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
-  // it.skip('Inserts a trip into the database on a POST request', function(done) {
-  //   var Trip = db.model('Trip');
-  //   Trip.find({ name: this.postTripsFixture.request.json.trip.name }, function(err, docs) {
-  //     expect(docs[0].name).to.eql(this.postTripsFixture.request.json.trip.name);
-  //     expect(docs[0].owner).to.eql(insertedUserId);
-  //     expect(docs[0].features.waypoints[0])
-  //       .to.eql(this.postTripsFixture.request.json.trip.features.waypoints[0]);
-  //     expect(docs[0].features.waypoints[1])
-  //       .to.eql(this.postTripsFixture.request.json.trip.features.waypoints[1]);
-  //     expect(docs[0]._id).to.exist;
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Inserts a trip into the database on a POST request', function(done) {
+    Trip.findOneAsync({ name: tripFixture.initialData.trip.name })
+    .then(function(docs) {
+      expect(docs.name).to.eql(tripFixture.initialData.trip.name);
+      expect(docs.owner).to.exist;
+      expect(docs.features.waypoints[0])
+        .to.eql(tripFixture.initialData.trip.features.waypoints[0]);
+      expect(docs.features.waypoints[1])
+        .to.eql(tripFixture.initialData.trip.features.waypoints[1]);
+      tripFixture.initialData.trip.id = docs._id;
+      expect(docs._id).to.exist;
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
-  // it.skip('Gets a single trip', function(done) {
-  //   request({
-  //     url: 'http://localhost:' + '9000' + this.getTripsFixture.request.url +
-  //       '/' + insertedTripId,
-  //     method: this.getTripsFixture.request.method
-  //   }, function(err, res, body) {
-  //     expect(res.statusCode).to.eql(200);
-  //     var bodyObj = JSON.parse(body);
-  //     expect(bodyObj.trip.id).to.eql(insertedTripId);
-  //     expect(bodyObj.trip.name).to.eql(this.getTripFixture.response.trip.name);
-  //     expect(bodyObj.trip.features).to.eql(this.getTripFixture.response.trip.features);
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Gets a single trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + tripFixture.url +
+        '/' + tripFixture.initialData.trip.id,
+      headers: userFixture.dbTokenAuths[0],
+      method: 'GET'
+    })
+    .spread(function(res, body) {
+      expect(res.statusCode).to.eql(200);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(tripFixture.initialData.trip.id.toString());
+      expect(bodyObj.trip.name).to.eql(tripFixture.initialData.trip.name);
+      expect(bodyObj.trip.features).to.eql(tripFixture.initialData.trip.features);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
-  // it.skip('Updates an existing trip', function(done) {
-  //   var requestJSON = this.putTripFixture.request.json;
-  //   requestJSON.trip.owner = insertedUserId;
-  //   request({
-  //     url: 'http://localhost:' + '9000' + this.putTripFixture.request.url +
-  //       '/' + insertedTripId,
-  //     method: this.putTripFixture.request.method,
-  //     json: requestJSON
-  //   }, function(err, res, body) {
-  //     expect(res.statusCode).to.eql(200);
-  //     expect(body.trip.id).to.eql(insertedTripId);
-  //     expect(body.trip.name).to.eql(this.putTripFixture.response.trip.name);
-  //     expect(body.trip.owner).to.eql(insertedUserId.toString());
-  //     expect(body.trip.features).to.eql(this.putTripFixture.response.trip.features);
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Updates an existing trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + tripFixture.url +
+        '/' + tripFixture.initialData.trip.id,
+      method: 'PUT',
+      headers: userFixture.dbTokenAuths[0],
+      json: tripFixture.afterPutData
+    })
+    .spread(function(res, body) {
+      expect(res.statusCode).to.eql(200);
+      expect(body.trip.id).to.eql(tripFixture.initialData.trip.id.toString());
+      expect(body.trip.name).to.eql(tripFixture.afterPutData.trip.name);
+      expect(body.trip.features).to.eql(tripFixture.afterPutData.trip.features);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
-  // it.skip('Changes a trip in the database on a PUT request', function(done) {
-  //   var Trip = db.model('Trip');
-  //   Trip.findById(insertedTripId, function(err, doc) {
-  //     expect(doc.name).to.eql(this.putTripFixture.request.json.trip.name);
-  //     expect(doc.owner).to.eql(insertedUserId);
-  //     expect(doc.features.waypoints[0])
-  //       .to.eql(this.putTripFixture.request.json.trip.features.waypoints[0]);
-  //     expect(doc.features.waypoints[1])
-  //       .to.eql(this.putTripFixture.request.json.trip.features.waypoints[1]);
-  //     expect(doc._id.toString()).to.equal(insertedTripId);
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Inserts a trip into the database on a POST request', function(done) {
+    Trip.findOneAsync({ name: tripFixture.afterPutData.trip.name })
+    .then(function(docs) {
+      expect(docs.name).to.eql(tripFixture.afterPutData.trip.name);
+      expect(docs.owner).to.exist;
+      expect(docs.features.waypoints[0])
+        .to.eql(tripFixture.afterPutData.trip.features.waypoints[0]);
+      expect(docs.features.waypoints[1])
+        .to.eql(tripFixture.afterPutData.trip.features.waypoints[1]);
+      tripFixture.afterPutData.trip.id = docs._id;
+      expect(docs._id).to.exist;
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
-  // it.skip('Deletes a trip', function(done) {
-  //   request({
-  //     url: 'http://localhost:' + '9000' + this.deleteTripFixture.request.url +
-  //       '/' + insertedTripId,
-  //     method: this.deleteTripFixture.request.method
-  //   }, function(err, res, body) {
-  //     expect(res.statusCode).to.eql(200);
-  //     var bodyObj = JSON.parse(body);
-  //     expect(bodyObj.trip.id).to.eql(insertedTripId);
-  //     expect(bodyObj.trip.name).to.eql(this.deleteTripFixture.response.trip.name);
-  //     expect(bodyObj.trip.owner).to.eql(insertedUserId.toString());
-  //     expect(bodyObj.trip.features).to.eql(this.deleteTripFixture.response.trip.features);
-  //     done();
-  //   }.bind(this));
-  // });
 
-  // it.skip('Deletes a trip from the database on a DELETE request', function(done) {
-  //   var Trip = db.model('Trip');
-  //   Trip.findById(insertedTripId, function(err, doc) {
-  //     expect(doc).to.not.exist;
-  //     done();
-  //   }.bind(this));
-  // });
+  it('Deletes a trip', function(done) {
+    request({
+      url: 'http://localhost:' + '9000' + tripFixture.url +
+        '/' + tripFixture.initialData.trip.id,
+      headers: userFixture.dbTokenAuths[0],
+      method: 'DELETE'
+    })
+    .spread(function(res, body) {
+      expect(res.statusCode).to.eql(200);
+      var bodyObj = JSON.parse(body);
+      expect(bodyObj.trip.id).to.eql(tripFixture.initialData.trip.id.toString());
+      expect(bodyObj.trip.name).to.eql(tripFixture.afterPutData.trip.name);
+      expect(bodyObj.trip.features).to.eql(tripFixture.afterPutData.trip.features);
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
+
+  it('Deletes a trip from the database on a DELETE request', function(done) {
+    Trip.findByIdAsync(tripFixture.initialData.trip.id)
+    .then(function(doc) {
+      expect(doc).to.not.exist;
+      done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
 });
