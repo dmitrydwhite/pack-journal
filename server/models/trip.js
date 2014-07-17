@@ -3,11 +3,16 @@
 module.exports = (function() {
   var Promise = require('bluebird');
 
+  var WaypointSchema = new db.Schema({
+    lat: Number,
+    lng: Number
+  }, { id: false, _id: false });
+
   var TripSchema = new db.Schema({
     name: String,
     owner: { type: db.Schema.Types.ObjectId, ref: 'User' },
     features: {
-      waypoints: [ db.Schema.Types.Mixed ]
+      waypoints: [ WaypointSchema ]
     }
   });
 
