@@ -5,9 +5,12 @@ App.TripEditRoute = Ember.Route.extend({
     saveTrip: function() {
       var self = this;
       this.currentModel.save()
-      .then(function(record) {
-        self.transitionTo('trip', record);
-      });
+      .then(function() {
+        self.transitionTo('trips');
+      })
+      .catch(function(err) {
+        console.log(err);
+      }) ;
     }
   },
 
