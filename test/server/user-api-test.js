@@ -3,30 +3,36 @@
 var expect = require('chai').expect;
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
-var server = require('../../server/application');
+var app = require('../../server/application');
 var helpers = require('./helpers/fixture_helper');
 var userFixture = __fixture('user-fixture');
+var server;
+var PORT = 9000;
 
 describe('User API', function() {
   before(function(done) {
     helpers.setUpUserFixtures()
     .then(function() {
-      server.listen(9001);
-      done();
+      server = app.listen(PORT, function() {
+        done();
+      });
     })
     .catch(function(e) {
-      console.log('Unable to set up trip fixtures and start server:', e);
+      console.log('Unable to set up trip fixtures and start app:', e);
       done(e);
     });
   });
 
-  after(function() {
+  after(function(done) {
     helpers.tearDownUserFixtures();
+    server.close(function(){
+      done();
+    });
   });
 
   it('Correctly responds when creating a user', function(done) {
     request({
-      url: 'http://localhost:' + '9001' + userFixture.userUrl,
+      url: 'http://localhost:' + PORT + userFixture.userUrl,
       method: 'POST',
       json: userFixture.apiFixtureUser
     })
@@ -58,7 +64,7 @@ describe('User API', function() {
 
   it('Authenticates an existing user and can delete a session (i.e. logout)', function(done) {
     request({
-      url: 'http://localhost:' + '9001' + userFixture.authUrl,
+      url: 'http://localhost:' + PORT + userFixture.authUrl,
       method: 'POST',
       headers: userFixture.dbTokenAuths[1],
       json: userFixture.apiFixtureSession
@@ -67,7 +73,7 @@ describe('User API', function() {
       expect(body.session).to.exist;
       expect(body.session.id).to.exist;
       return request({
-        url: 'http://localhost:' + '9001' + userFixture.logoutUrl,
+        url: 'http://localhost:' + PORT + userFixture.logoutUrl,
         method: 'DELETE',
         headers: { 'Authorization': userFixture.dbTokenAuths[1] }
       });

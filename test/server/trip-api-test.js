@@ -3,19 +3,22 @@
 var expect = require('chai').expect;
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
-var server = require('../../server/application');
+var app = require('../../server/application');
 var helpers = require('./helpers/fixture_helper');
 var _ = require('lodash');
 var tripFixture = __fixture('trip-fixture');
 var userFixture = __fixture('user-fixture');
 var Trip = require('../../server/models/trip').Trip;
+var server;
+var PORT = 9000;
 
 describe('Trips API', function() {
   before(function(done) {
     helpers.setUpTripFixtures()
     .then(function() {
-      server.listen(9000);
-      done();
+      server = app.listen(PORT, function() {
+        done();
+      });
     })
     .catch(function(e) {
       console.log('Unable to set up trip fixtures and start server:', e);
@@ -23,13 +26,16 @@ describe('Trips API', function() {
     });
   });
 
-  after(function() {
+  after(function(done) {
     helpers.tearDownTripFixtures();
+    server.close(function(){
+      done();
+    });
   });
 
   it('Gets a valid list of all trips', function(done) {
     request({
-      url: 'http://localhost:' + '9000' + tripFixture.url,
+      url: 'http://localhost:' + PORT + tripFixture.url,
       method: 'GET',
       headers: userFixture.dbTokenAuths[1]
     })
@@ -50,7 +56,7 @@ describe('Trips API', function() {
 
   it('Correctly responds to POST request', function(done) {
     request({
-      url: 'http://localhost:' + '9000' + tripFixture.url,
+      url: 'http://localhost:' + PORT + tripFixture.url,
       method: 'POST',
       headers: userFixture.dbTokenAuths[0],
       json: tripFixture.initialData
@@ -87,7 +93,7 @@ describe('Trips API', function() {
 
   it('Gets a single trip', function(done) {
     request({
-      url: 'http://localhost:' + '9000' + tripFixture.url +
+      url: 'http://localhost:' + PORT + tripFixture.url +
         '/' + tripFixture.initialData.trip.id,
       headers: userFixture.dbTokenAuths[0],
       method: 'GET'
@@ -107,7 +113,7 @@ describe('Trips API', function() {
 
   it('Updates an existing trip', function(done) {
     request({
-      url: 'http://localhost:' + '9000' + tripFixture.url +
+      url: 'http://localhost:' + PORT + tripFixture.url +
         '/' + tripFixture.initialData.trip.id,
       method: 'PUT',
       headers: userFixture.dbTokenAuths[0],
@@ -146,7 +152,7 @@ describe('Trips API', function() {
 
   it('Deletes a trip', function(done) {
     request({
-      url: 'http://localhost:' + '9000' + tripFixture.url +
+      url: 'http://localhost:' + 9000 + tripFixture.url +
         '/' + tripFixture.initialData.trip.id,
       headers: userFixture.dbTokenAuths[0],
       method: 'DELETE'
