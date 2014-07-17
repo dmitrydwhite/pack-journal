@@ -1,5 +1,7 @@
 {
-  "url": "/api/users/",
+  "userUrl": "/api/users/",
+  "authUrl": "/api/sessions/",
+  "logoutUrl": "/api/sessions/current",
   "dbFixtures": [
     {
       "username": "adam",
@@ -16,8 +18,14 @@
     { "authorization": "Token 4fad6a7b9c944608b0510693dd90c4ef" },
     { "authorization": "Token 11e4e529f22d41c0b6f5cc3bd2af2145" }
   ],
-  "apiFixture": {
+  "apiFixtureUser": {
     "user": {
+      "username": "mradamh",
+      "password": "notarealpassword"
+    }
+  },
+  "apiFixtureSession": {
+    "session": {
       "username": "mradamh",
       "password": "notarealpassword"
     }

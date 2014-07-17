@@ -24,16 +24,16 @@ describe('User API', function() {
     helpers.tearDownUserFixtures();
   });
 
-  it('Correctly responds to POST request', function(done) {
+  it('Correctly responds when creating a user', function(done) {
     request({
-      url: 'http://localhost:' + '9001' + userFixture.url,
+      url: 'http://localhost:' + '9001' + userFixture.userUrl,
       method: 'POST',
-      json: userFixture.apiFixture
+      json: userFixture.apiFixtureUser
     })
     .spread(function(res, body) {
       expect(res.statusCode).to.eql(200);
       expect(body.user.id).to.exist;
-      expect(body.user.username).to.eql(userFixture.apiFixture.user.username);
+      expect(body.user.username).to.eql(userFixture.apiFixtureUser.user.username);
       done();
     })
     .catch(function(e) {
@@ -41,11 +41,11 @@ describe('User API', function() {
     });
   });
 
-  it('Inserts a user into the database on a POST request', function(done) {
+  it('Inserts a user into the database when a user is created', function(done) {
     var User = require('../../server/models/user').User;
-    User.findOneAsync({ username: userFixture.apiFixture.user.username })
+    User.findOneAsync({ username: userFixture.apiFixtureUser.user.username })
     .then(function(doc) {
-      expect(doc.username).to.eql(userFixture.apiFixture.user.username);
+      expect(doc.username).to.eql(userFixture.apiFixtureUser.user.username);
       expect(doc.passwordDigest).to.exist;
       expect(doc._id).to.exist;
       expect(doc.sessionDigests.length).to.be.eql(1);
@@ -56,24 +56,31 @@ describe('User API', function() {
     });
   });
 
-//   it('Authenticates an existing user and can delete a session (i.e. logout)', function(done) {
-//     request({
-//       url: 'http://localhost:' + '9000' + this.authUserFixture.request.url,
-//       method: this.authUserFixture.request.method,
-//       headers: { 'Authorization': this.authUserFixture.request.authorization}
-//     }, function(err, res, body) {
-//       expect(JSON.parse(body)).to.eql(this.authUserFixture.response);
-//       request({
-//         url: 'http://localhost:' + '9000' + this.authUserFixture.request.url,
-//         method: this.authUserFixture.request.method,
-//         headers: { 'Authorization': this.authUserFixture.request.authorization }
-//       }, function(err, res, body) {
-//         expect(JSON.parse(body)).to.eql({ error: 'invalid credentials' });
-//         expect(res.statusCode).to.eql(401);
-//         done();
-//       });
-//     }.bind(this));
-//   });
+  it('Authenticates an existing user and can delete a session (i.e. logout)', function(done) {
+    request({
+      url: 'http://localhost:' + '9001' + userFixture.authUrl,
+      method: 'POST',
+      headers: userFixture.dbTokenAuths[1],
+      json: userFixture.apiFixtureSession
+    })
+    .spread(function(res, body) {
+      expect(body.session).to.exist;
+      expect(body.session.id).to.exist;
+      return request({
+        url: 'http://localhost:' + '9001' + userFixture.logoutUrl,
+        method: 'DELETE',
+        headers: { 'Authorization': userFixture.dbTokenAuths[1] }
+      });
+    })
+    .spread(function(res, body) {
+        expect(JSON.parse(body)).to.eql({ error: 'invalid credentials' });
+        expect(res.statusCode).to.eql(401);
+        done();
+    })
+    .catch(function(e) {
+      done(e);
+    });
+  });
 
 //   // TODO: implement fixture and test for login
 //   it.skip('Logs in an existing user using password');
