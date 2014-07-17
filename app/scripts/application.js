@@ -19,7 +19,7 @@ require('./routes/login-route');
 require('./routes/logout-route');
 require('./routes/trips-route');
 require('./routes/trip-route');
-require('./routes/trips-add-route');
+require('./routes/add-route');
 require('./routes/trip-edit-route');
 require('./routes/trip-delete-route');
 require('./controllers/login-controller');

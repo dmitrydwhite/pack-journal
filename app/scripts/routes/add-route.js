@@ -1,8 +1,9 @@
 'use strict';
 
-App.TripsAddRoute = Ember.Route.extend({
+App.AddRoute = Ember.Route.extend({
 
   renderTemplate: function() {
+    this.render('main');
     this.render('map/default', {
       outlet: 'map',
       into: 'main'

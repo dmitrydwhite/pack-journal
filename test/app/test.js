@@ -30,7 +30,7 @@ describe('app', function() {
       JSON.stringify(mapBoxFixture.response)]);
 
     //Perform actual test
-    visit('/');
+    visit('/trips');
     andThen(function() {
       expect(find('#map').children().first().hasClass('leaflet-map-pane')).to.be.true;
       done();
