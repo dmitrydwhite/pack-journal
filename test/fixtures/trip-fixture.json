@@ -4,6 +4,15 @@
       "name": "Testing the Post Trip",
       "features":
       {
+        "textAnnotations":
+        [
+          { "text": "I saw a bear here once.",
+            "coordinates": {
+              "lat": 47.05,
+              "lng": -122.05
+            }
+          }
+        ],
         "waypoints":
         [
           { "lat": 47, "lng": -122 },
@@ -19,6 +28,15 @@
       "name": "Updated trip name",
       "features":
       {
+        "textAnnotations":
+        [
+          { "text": "Never mind, it was just a squirell",
+            "coordinates": {
+              "lat": 0.015,
+              "lng": 80
+            }
+          }
+        ],
         "waypoints":
         [
           { "lat": 0.01, "lng": 90.234 },
@@ -37,6 +55,15 @@
         "name": "Dmitry's Big Adventure",
         "features":
         {
+          "textAnnotations":
+          [
+            { "text": "Big river crossing",
+              "coordinates": {
+                "lat": 0.015,
+                "lng": 80
+              }
+            }
+          ],
           "waypoints":
           [
             { "lat": 47, "lng": -122 },
@@ -49,6 +76,21 @@
         "name": "Adam's Walkabout",
         "features":
         {
+          "textAnnotations":
+          [
+            { "text": "cool rock",
+              "coordinates": {
+                "lat": 0.015,
+                "lng": 80
+              }
+            },
+            { "text": "lots and lots of dirt",
+              "coordinates": {
+                "lat": 0.034,
+                "lng": 80.15
+              }
+            }
+          ],
           "waypoints":
           [
             { "lat": 47.2, "lng": -121.98 },

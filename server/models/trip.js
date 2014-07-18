@@ -3,16 +3,24 @@
 module.exports = (function() {
   var Promise = require('bluebird');
 
-  var WaypointSchema = new db.Schema({
+  var CoordinateSchema = new db.Schema({
     lat: Number,
     lng: Number
   }, { id: false, _id: false });
+
+  var TextAnnotationSchema = new db.Schema({
+    text: String,
+    coordinates: {
+      lat: Number,
+      lng: Number
+    }}, { id: false, _id: false });
 
   var TripSchema = new db.Schema({
     name: String,
     owner: { type: db.Schema.Types.ObjectId, ref: 'User' },
     features: {
-      waypoints: [ WaypointSchema ]
+      waypoints: [ CoordinateSchema ],
+      textAnnotations: [ TextAnnotationSchema ]
     }
   });
 
