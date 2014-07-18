@@ -5,6 +5,8 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   routeLine: undefined,
 
+  textMarkers: undefined,
+
   createRoute: function(e) {
     var addedPoints = e.layer.getLatLngs().map(function(point) {
       return { lat: point.lat, lng: point.lng };
@@ -13,47 +15,94 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.set('waypoints', addedPoints);
   },
 
+  createTextAnnotation: function(e) {
+    var addedPoint = {
+      lat: e.layer.getLatLngs().lat,
+      lng: e.layer.getLatLngs().lng
+    };
+    this.set('textAnnotations', this.get('textAnnotations').push(addedPoint));
+  },
+
+  editRoute: function() {
+    var routeFeatureGroup = L.featureGroup().addTo(this.get('map'));
+
+    new L.Control.Draw({
+      edit: {
+        featureGroup: routeFeatureGroup
+      },
+
+      draw: {
+        polygon: false,
+        polyline: true,
+        rectangle: false,
+        circle: false,
+        marker: false
+      }
+    }).addTo(this.get('map'));
+
+    this.get('map').on('draw:created', function(e) { this.createRoute(e); }.bind(this) );
+  },
+
+  editTextAnnotations: function() {
+    var textFeatureGroup = L.featureGroup().addTo(this.get('map'));
+
+    new L.Control.Draw({
+      edit: {
+        featureGroup: textFeatureGroup
+      },
+
+      draw: {
+        polygon: false,
+        polyline: false,
+        rectangle: false,
+        circle: false,
+        marker: true
+      }
+    }).addTo(this.get('map'));
+
+    this.get('map').on('draw:created', function(e) {
+      this.createTextAnnotation(e);
+    }.bind(this));
+  },
+
   didInsertElement: function() {
     this._super();
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
 
     this.drawTrip();
 
-    var featureGroup;
-    if (this.get('mode') === 'edit') {
-      featureGroup = L.featureGroup().addTo(this.get('map'));
-
-      new L.Control.Draw({
-        edit: {
-          featureGroup: featureGroup
-        },
-
-        draw: {
-          polygon: false,
-          polyline: true,
-          rectangle: false,
-          circle: false,
-          marker: false
-        }
-      }).addTo(this.get('map'));
-    }
-
-    this.get('map').on('draw:created', function(e) { this.createRoute(e); }.bind(this) );
+    if (this.get('mode') === 'editRoute') { this.editRoute(); }
+    else if(this.get('mode') === 'editTextAnnotations') { this.editTextAnnotations(); }
   },
 
   drawTrip: function() {
-    var routePoints = [];
-    var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
 
+    this.drawRoute();
+    this.drawTextMarkers();
+  },
+
+  drawRoute: function() {
+    var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
+    var routePoints = [];
     if(this.get('waypoints') && this.get('waypoints').length > 0) {
       this.get('waypoints').forEach(function(point) {
         routePoints.push([point.lat, point.lng]);
       });
       this.set('routeLine',
-        L.polyline(routePoints, { color: '#F99' }).addTo(this.get('map')));
+        L.polyline(routePoints, { color: '#F88' }).addTo(this.get('map')));
       this.get('map').fitBounds(this.get('routeLine').getBounds());
     } else {
       this.get('map').fitBounds(defaultBounds);
+    }
+  },
+
+  drawTextMarkers: function() {
+    var textPoints = [];
+    if(this.get('textAnnotations') && this.get('textAnnotations').length > 0) {
+      this.get('textAnnotations').forEach(function(point) {
+        textPoints.push([point.lat, point.lng]);
+        L.marker(point).addTo(this.get('map'));
+      });
     }
   },
 
