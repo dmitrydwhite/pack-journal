@@ -71,8 +71,8 @@ App.MapDisplayComponent = Ember.Component.extend({
 
     this.drawTrip();
 
-    if (this.get('mode') === 'editRoute') { this.editRoute(); }
-    else if(this.get('mode') === 'editTextAnnotations') { this.editTextAnnotations(); }
+    if (this.get('editMode') === 'editRoute') { this.editRoute(); }
+    else if(this.get('editMode') === 'editTextAnnotations') { this.editTextAnnotations(); }
   },
 
   drawTrip: function() {
