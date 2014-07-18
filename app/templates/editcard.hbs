@@ -1,6 +1,7 @@
 <div class="panel">
   <h5>Click on the map to add waypoints</h5>
   <h5>{{input placeholder="Trip Title" value=name}}</h5>
+  <button class="button" {{action addTextAnnotation}}>Add a Journal Entry</button>
   <button class="button" {{action saveTrip}}>Save</button>
   {{#link-to "trip.delete" id}}<button class="button">Delete</button>{{/link-to}}
 </div>

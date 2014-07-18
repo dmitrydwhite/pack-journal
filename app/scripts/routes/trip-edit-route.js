@@ -11,6 +11,10 @@ App.TripEditRoute = Ember.Route.extend({
       .catch(function(err) {
         console.log(err);
       }) ;
+    },
+
+    addTextAnnotation: function() {
+      this.controller.set('editMode', 'editTextAnnotations');
     }
   },
 

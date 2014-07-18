@@ -7,6 +7,10 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   textMarkers: undefined,
 
+  routeDrawing: undefined,
+
+  textDrawing: undefined,
+
   createRoute: function(e) {
     var addedPoints = e.layer.getLatLngs().map(function(point) {
       return { lat: point.lat, lng: point.lng };
@@ -25,8 +29,11 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   editRoute: function() {
     var routeFeatureGroup = L.featureGroup().addTo(this.get('map'));
+    if(this.get('textDrawing')) {
+      this.get('textDrawing').removeFrom(this.get('map'));
+    }
 
-    new L.Control.Draw({
+    var drawControl = new L.Control.Draw({
       edit: {
         featureGroup: routeFeatureGroup
       },
@@ -38,15 +45,25 @@ App.MapDisplayComponent = Ember.Component.extend({
         circle: false,
         marker: false
       }
-    }).addTo(this.get('map'));
+    });
 
-    this.get('map').on('draw:created', function(e) { this.createRoute(e); }.bind(this) );
+    drawControl.addTo(this.get('map'));
+    this.set('routeDrawing', drawControl);
+
+    this.get('map').on('draw:created', function(e) {
+      this.createRoute(e);
+    }.bind(this));
+
   },
 
   editTextAnnotations: function() {
     var textFeatureGroup = L.featureGroup().addTo(this.get('map'));
+    console.log('surely not');
+    if(this.get('routeDrawing')) {
+      this.get('routeDrawing').removeFrom(this.get('map'));
+    }
 
-    new L.Control.Draw({
+    var drawControl = new L.Control.Draw({
       edit: {
         featureGroup: textFeatureGroup
       },
@@ -58,7 +75,9 @@ App.MapDisplayComponent = Ember.Component.extend({
         circle: false,
         marker: true
       }
-    }).addTo(this.get('map'));
+    });
+    drawControl.addTo(this.get('map'));
+    this.set('textDrawing', drawControl);
 
     this.get('map').on('draw:created', function(e) {
       this.createTextAnnotation(e);
@@ -70,18 +89,18 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
 
     this.drawTrip();
+  },
+
+  drawTrip: function() {
+    this.drawRoute();
+    // this.drawTextMarkers();
 
     if (this.get('editMode') === 'editRoute') { this.editRoute(); }
     else if(this.get('editMode') === 'editTextAnnotations') { this.editTextAnnotations(); }
   },
 
-  drawTrip: function() {
-
-    this.drawRoute();
-    this.drawTextMarkers();
-  },
-
   drawRoute: function() {
+    console.log('here');
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     var routePoints = [];
     if(this.get('waypoints') && this.get('waypoints').length > 0) {
@@ -106,10 +125,10 @@ App.MapDisplayComponent = Ember.Component.extend({
     }
   },
 
-  waypointsDidChange: function() {
+  mapDidChange: function() {
     if(this.get('routeLine')) {
       this.get('map').removeLayer(this.get('routeLine'));
     }
     this.drawTrip();
-  }.observes('waypoints')
+  }.observes('waypoints', 'editMode')
 });
