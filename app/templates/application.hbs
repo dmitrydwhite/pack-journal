@@ -1,4 +1,3 @@
-{{#if session.isAuthenticated}}
 <div class="row">
     <div class="large-12 columns">
       <div class="nav-bar right">
@@ -37,9 +36,3 @@
       </div>
     </div>
   </footer>
-{{else}}
-<ul class="button-group">
-  <li>{{#link-to "login" class="button"}}LOG IN{{/link-to}}</li>
-  <li>{{#link-to "signup" class="button"}}SIGN UP{{/link-to}}</li>
-</ul>
-{{/if}}
