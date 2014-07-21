@@ -25,7 +25,8 @@ App.MapDisplayComponent = Ember.Component.extend({
     console.log('Adding Line ' + e.layer.getLatLngs());
     var waypointsHelper = (this.get('waypoints') === undefined) ? [] : this.get('waypoints');
     waypointsHelper.push(e.layer.getLatLngs());
-    this.set('waypointsHelper', waypointsHelper);
+    console.log('waypoints Helper: ' + waypointsHelper);
+    this.set('waypoints', waypointsHelper);
     console.log('setting waypoints to: ' + this.get('waypoints'));
     this.drawRoute();
   },
@@ -93,7 +94,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     console.log('drawing route');
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     var allRoutes = [];
-    if(this.get('waypoints') && this.get('waypoints').length > 1) {
+    if(this.get('waypoints') && this.get('waypoints').length > 0) {
       this.get('waypoints').forEach(function(point) {
           console.log(point);
           L.polyline(point, { color: '#142' }).addTo(this.get('map'));

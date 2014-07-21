@@ -4,6 +4,7 @@ App.TripEditRoute = Ember.Route.extend({
   actions: {
     saveTrip: function() {
       var self = this;
+      console.log(this.currentModel);
       this.currentModel.save()
       .then(function() {
         self.transitionTo('trips');
