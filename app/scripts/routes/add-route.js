@@ -25,7 +25,7 @@ App.AddRoute = Ember.Route.extend({
       .then(function(record) {
         this.transitionTo('trip.edit', record);
       }.bind(this));
-      this.set('controller.name', undefined);
+      // this.set('controller.name', undefined);
     }
   }
 });
