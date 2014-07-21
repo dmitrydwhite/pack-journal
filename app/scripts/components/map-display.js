@@ -21,10 +21,12 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   createTextAnnotation: function(e) {
     var addedPoint = {
-      lat: e.layer.getLatLngs().lat,
-      lng: e.layer.getLatLngs().lng
+      lat: e.layer.getLatLng().lat,
+      lng: e.layer.getLatLng().lng
     };
-    this.set('textAnnotations', this.get('textAnnotations').push(addedPoint));
+    // Nasty hack because ember data won't creat a record with empy array
+    if(this.get('textAnnotations') === undefined) { this.set('textAnnotations', []); }
+    this.get('textAnnotations').push(addedPoint);
   },
 
   editRoute: function() {
@@ -32,6 +34,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     if(this.get('textDrawing')) {
       this.get('textDrawing').removeFrom(this.get('map'));
     }
+    this.get('map').off('draw:created');
 
     var drawControl = new L.Control.Draw({
       edit: {
@@ -58,10 +61,10 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   editTextAnnotations: function() {
     var textFeatureGroup = L.featureGroup().addTo(this.get('map'));
-    console.log('surely not');
     if(this.get('routeDrawing')) {
       this.get('routeDrawing').removeFrom(this.get('map'));
     }
+    this.get('map').off('draw:created');
 
     var drawControl = new L.Control.Draw({
       edit: {
@@ -93,7 +96,7 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   drawTrip: function() {
     this.drawRoute();
-    // this.drawTextMarkers();
+    this.drawTextMarkers();
 
     if (this.get('editMode') === 'editRoute') { this.editRoute(); }
     else if(this.get('editMode') === 'editTextAnnotations') { this.editTextAnnotations(); }

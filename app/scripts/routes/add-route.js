@@ -17,7 +17,9 @@ App.AddRoute = Ember.Route.extend({
   actions: {
     saveTrip: function() {
       var trip = this.store.createRecord('trip', {
-        name: this.get('controller.name')
+        name: this.get('controller.name'),
+        waypoints: [],
+        textAnnotations: []
       });
       trip.save()
       .then(function(record) {

@@ -1,5 +1,6 @@
 //Model
 App.Trip = DS.Model.extend({
   name: DS.attr('string'),
-  waypoints: DS.attr()
+  waypoints: DS.attr(),
+  textAnnotations: DS.attr()
 });

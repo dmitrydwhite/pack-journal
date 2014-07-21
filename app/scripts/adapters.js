@@ -12,6 +12,7 @@ App.TripSerializer = DS.RESTSerializer.extend({
   extractArray: function(store, type, payload) {
     payload.trips.forEach(function(trip) {
       trip.waypoints = trip.features.waypoints;
+      trip.textAnnotations = trip.features.textAnnotations;
       delete trip.features;
     });
 
@@ -22,7 +23,8 @@ App.TripSerializer = DS.RESTSerializer.extend({
     var json = {
       name: trip.get('name'),
       features: {
-        waypoints: trip.get('waypoints')
+        waypoints: trip.get('waypoints'),
+        textAnnotations: trip.get('textAnnotations')
       }
     };
 
