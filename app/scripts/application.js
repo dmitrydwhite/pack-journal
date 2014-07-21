@@ -7,7 +7,8 @@ Ember.AdmitOne.setup();
 Ember.config = {
   MAPKEY: 'athorak.ile4f80n',
   center: [45.46, -122.7],
-  zoom: 8
+  zoom: 8,
+  drawControl: true
 };
 
 require('./components/map-display.js');
