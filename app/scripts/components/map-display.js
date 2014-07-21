@@ -26,6 +26,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     console.log(this.get('waypoints').length);
     this.get('waypoints').push(e.layer.getLatLngs());
     console.log(this.get('waypoints'));
+    this.drawRoute();
   },
 
   addMarker: function(e) {
@@ -94,14 +95,15 @@ App.MapDisplayComponent = Ember.Component.extend({
     var routePoints = [];
     var drawingHikes = this.get('waypoints');
     console.log(drawingHikes);
-    if(this.get('waypoints') && this.get('waypoints').length > 0) {
+    if(this.get('waypoints') && this.get('waypoints').length > 1) {
       this.get('waypoints').forEach(function(hike) {
         hike.forEach(function(point) {
           routePoints.push([point.lat, point.lng]);
           L.polyline(routePoints, { color: '#142' }).addTo(this.get('map'));
           allRoutes.push(point);
-        });
-      });
+          routePoints = [];
+        }.bind(this));
+      }.bind(this));
       this.get('map').fitBounds(allRoutes).getBounds();
     } else {
       this.get('map').fitBounds(defaultBounds);
