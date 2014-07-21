@@ -111,7 +111,7 @@ App.MapDisplayComponent = Ember.Component.extend({
         routePoints.push([point.lat, point.lng]);
       });
       this.set('routeLine',
-        L.polyline(routePoints, { color: '#F88' }).addTo(this.get('map')));
+        L.polyline(routePoints, { color: '#142' }).addTo(this.get('map')));
       this.get('map').fitBounds(this.get('routeLine').getBounds());
     } else {
       this.get('map').fitBounds(defaultBounds);
