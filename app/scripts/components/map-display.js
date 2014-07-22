@@ -33,7 +33,10 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   addMarker: function(e) {
     console.log('Adding Marker at ' + e.layer.getLatLng());
-    this.get('textAnnotations').push(e.layer.getLatLng());
+    var markerHelper = (this.get('textAnnotations') === undefined) ? [] : this.get('textAnnotations');
+    markerHelper.push(e.layer.getLatLng());
+    this.set('textAnnotations', markerHelper);
+    this.drawRoute();
   },
 
   createTextAnnotation: function(e) {

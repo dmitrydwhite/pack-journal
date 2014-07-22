@@ -2,19 +2,9 @@
 
 App.TripEditRoute = Ember.Route.extend({
   actions: {
-    saveTrip: function(params) {
+    saveTrip: function() {
       var self = this;
-      console.log(params);
-      var trip = {
-        id: this.get('controller.id'),
-        name: this.get('controller.name'),
-        waypoints: this.get('controller.waypoints'),
-        textAnnotations: this.get('controller.textAnnotations')
-      };
-      this.store.update('trip', trip)
-      .then(function(record) {
-        record.save();
-      })
+      this.currentModel.save()
       .then(function() {
         self.transitionTo('trips');
       })

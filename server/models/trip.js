@@ -22,8 +22,8 @@ module.exports = (function() {
       // waypoints: [ CoordinateSchema ],
       // textAnnotations: [ TextAnnotationSchema ]
 
-      waypoints: [ MixedSchema ],
-      textAnnotations: [ MixedSchema ]
+      waypoints:  Array ,
+      textAnnotations:   Array
     }
   });
 
