@@ -14,7 +14,6 @@ App.MapDisplayComponent = Ember.Component.extend({
   tripFeatures: undefined,
 
   controlFeature: function(e) {
-    console.log(e.layerType);
     if (e.layerType === 'polyline') {this.addLine(e);}
 
     if (e.layerType === 'marker') {this.addMarker(e);}
@@ -57,7 +56,6 @@ App.MapDisplayComponent = Ember.Component.extend({
     }
 
     this.get('map').on('draw:created', function(e) {
-      console.log(e.layer);
       this.get('tripFeatures').addLayer(e.layer);
       this.controlFeature(e);
     }.bind(this));
@@ -78,12 +76,10 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   drawRoute: function() {
-    console.log('drawing route');
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     var allRoutes = [];
     if(this.get('waypoints') && this.get('waypoints').length > 0) {
       this.get('waypoints').forEach(function(point) {
-          console.log(point);
           L.polyline(point, { color: '#142' }).addTo(this.get('map'));
           allRoutes.push(point);
       }.bind(this));
