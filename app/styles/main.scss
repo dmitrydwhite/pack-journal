@@ -6,11 +6,14 @@ body {
   font-size: 14pt;
 }
 
-// TODO: improve map styling
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 95%;
+  min-height: 400px;
+}
+
+.height_match {
   min-height: 400px;
 }
