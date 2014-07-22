@@ -10,5 +10,9 @@ App.ApplicationRoute = Ember.Route.extend({
         outlet: 'sidebar',
         into: 'main'
       });
+      this.render('covermap', {
+        outlet: 'map',
+        into: 'main'
+      });
   }
 });
