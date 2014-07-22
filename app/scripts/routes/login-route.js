@@ -6,5 +6,20 @@ App.LoginRoute = Ember.Route.extend({
     if (this.get('session').get('isAuthenticated')) {
       this.transitionTo('trips');
     }
+  },
+
+  renderTemplate: function() {
+    this.render('application');
+    this.render('main', {
+      into: 'application'
+    });
+    this.render('application.index', {
+      into: 'main',
+      outlet: 'sidebar'
+    });
+    this.render('login', {
+      into: 'main',
+      outlet: 'map'
+    });
   }
 });
