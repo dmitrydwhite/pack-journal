@@ -1,3 +1,10 @@
 <div class="panel">
-  <h5>{{#link-to "trip.edit" trip.id}}{{trip.name}}{{/link-to}}</h5>
+  <h5>
+    {{#link-to "trip.edit" trip.id}}{{trip.name}}{{/link-to}}
+    <div class="trash">
+      {{#link-to "trip.delete" trip.id}}
+        <img src="../assets/images/delete.jpeg" alt="delete" size="100%">
+      {{/link-to}}
+    </div>
+  </h5>
 </div>

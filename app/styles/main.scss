@@ -32,11 +32,36 @@ footer {
   color: white;
 }
 
-.button {
+.button, button {
   background-color: #DEC26E;
   color: #41402C;
 }
 
+.button:hover, button:hover {
+  background-color: #3C1E16;
+}
+
+.panel {
+  background-color: #DEC26E;
+}
+
 .welcome {
   font-family: 'Satisfy', cursive;
+}
+
+.trash {
+  float: right;
+}
+
+.trash img {
+  max-height: 30px;
+  width: auto;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: #3C341F;
 }
