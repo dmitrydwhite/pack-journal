@@ -5,6 +5,21 @@ App.SignupRoute = Ember.Route.extend({
     return this.store.createRecord('user');
   },
 
+  renderTemplate: function() {
+    this.render('application');
+    this.render('main', {
+      into: 'application'
+    });
+    this.render('application.index', {
+      into: 'main',
+      outlet: 'sidebar'
+    });
+    this.render('signup', {
+      into: 'main',
+      outlet: 'map'
+    });
+  },
+
   actions: {
     signup: function() {
       var session = this.get('session');

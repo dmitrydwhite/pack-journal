@@ -6,7 +6,10 @@ App.TripRoute = Ember.Route.extend({
   },
 
   renderTemplate: function() {
-    this.render('main');
+    this.render('application');
+    this.render('main', {
+      into: 'application'
+    });
     this.render('map/detail', {
       outlet: 'map',
       into: 'main'

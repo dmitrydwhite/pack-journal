@@ -1,6 +1,7 @@
 'use strict';
 
 Ember.Router.map(function () {
+  this.route('application', { path: '/' });
   this.route('signup', { path: '/signup' });
   this.route('login', { path: '/login' });
   this.route('logout', { path: '/logout' });
