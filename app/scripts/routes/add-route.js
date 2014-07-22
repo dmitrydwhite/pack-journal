@@ -1,6 +1,12 @@
 'use strict';
 
 App.AddRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this._super();
+    if (this.get('session').get('isAuthenticated') === false) {
+      this.transitionTo('application');
+    }
+  },
 
   renderTemplate: function() {
     this.render('application');

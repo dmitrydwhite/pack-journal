@@ -1,6 +1,13 @@
 'use strict';
 
 App.TripsRoute = Ember.Route.extend({
+  beforeModel: function() {
+    this._super();
+    if (this.get('session').get('isAuthenticated') === false) {
+      this.transitionTo('application');
+    }
+  },
+
   model: function() {
     return this.store.find('trip');
   },
