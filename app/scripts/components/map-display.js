@@ -22,34 +22,19 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   addLine: function(e) {
-    console.log('Adding Line ' + e.layer.getLatLngs());
     var waypointsHelper = (this.get('waypoints') === undefined) ? [] : this.get('waypoints');
     waypointsHelper.push(e.layer.getLatLngs());
-    console.log('waypoints Helper: ' + waypointsHelper);
     this.set('waypoints', waypointsHelper);
-    console.log('setting waypoints to: ' + this.get('waypoints'));
     this.drawRoute();
   },
 
   addMarker: function(e) {
-    console.log('Adding Marker at ' + e.layer.getLatLng());
     var markerHelper = (this.get('textAnnotations') === undefined) ? [] : this.get('textAnnotations');
     markerHelper.push(e.layer.getLatLng());
     this.set('textAnnotations', markerHelper);
     this.drawRoute();
   },
 
-  createTextAnnotation: function(e) {
-    var addedPoint = {
-      lat: e.layer.getLatLng().lat,
-      lng: e.layer.getLatLng().lng
-    };
-    // Nasty hack because ember data won't creat a record with empy array
-    if(this.get('textAnnotations') === undefined) { this.set('textAnnotations', []); }
-    this.get('textAnnotations').push(addedPoint);
-  },
-
-  // Refactoring to see if we can just edit all the features in one function
   editTrip: function() {
     this.set('tripFeatures', new L.featureGroup().addTo(this.get('map')));
 
@@ -87,7 +72,6 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   drawTrip: function() {
     this.drawRoute();
-    this.drawTextMarkers();
 
     if (this.get('editMode') === 'editRoute') { this.editTrip(); }
     else if(this.get('editMode') === 'editTextAnnotations') { this.editTextAnnotations(); }
@@ -107,17 +91,12 @@ App.MapDisplayComponent = Ember.Component.extend({
     } else {
       this.get('map').fitBounds(defaultBounds);
     }
-  },
-
-  drawTextMarkers: function() {
-    console.log('drawing text markers');
-    var textPoints = [];
     if (this.get('textAnnotations') && this.get('textAnnotations').length > 0) {
       this.get('textAnnotations').forEach(function(point) {
-        console.log(point);
-        // textPoints.push([point.lat, point.lng]);
-        // L.marker(point).addTo(this.get('map'));
-      });
+        L.marker(point, {
+          'marker-size': 'small',
+          'marker-color': '#142'}).addTo(this.get('map'));
+      }.bind(this));
     }
   },
 
