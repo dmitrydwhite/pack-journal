@@ -1,0 +1,13 @@
+<div class="panel">
+  <h3>Welcome to Pack Journal</h3>
+  <p>Where you can keep a record of all your outdoor adventures.</p>
+  <p>Add a trip, name it, then click 'Create'.  From there, you can immediately start drawing your route and adding points of interest.</p>
+  {{#if session.isAuthenticated}}
+    {{#link-to "trips" class="button"}}Get Started!{{/link-to}}
+  {{else}}
+    <ul class="button-group">
+      <li>{{#link-to "signup" class="button"}}Sign Up{{/link-to}}</li>
+      <li>{{#link-to "login" class="button"}}Log In{{/link-to}}</li>
+    </ul>
+  {{/if}}
+</div>

@@ -14,6 +14,7 @@ require('./components/map-display.js');
 require('./models/trip-model');
 require('./models/user-model');
 require('./router');
+require('./routes/application-route');
 require('./routes/signup-route');
 require('./routes/login-route');
 require('./routes/logout-route');
