@@ -3,44 +3,79 @@
 App.MapDisplayComponent = Ember.Component.extend({
   map: undefined,
 
-  routeLine: undefined,
-
   textMarkers: undefined,
 
   routeDrawing: undefined,
 
-  textDrawing: undefined,
+  geoJSON: undefined,
 
-  tripFeatures: undefined,
+  featureLayer: undefined,
 
-  controlFeature: function(e) {
-    if (e.layerType === 'polyline') {this.addLine(e);}
+  setGeoJSON: function() {
+    var geoJSON = [];
+    var waypoints = this.get('waypoints');
+    var textAnnotations = this.get('textAnnotations');
+    var coordinates;
 
-    if (e.layerType === 'marker') {this.addMarker(e);}
+    // Transform waypoints property into geoJSON
+    if(waypoints && waypoints.length > 0) {
+      waypoints.forEach(function(line) {
+        coordinates = line.map(function(point) {
+          return [point.lng, point.lat];
+        });
 
+        geoJSON.push({
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: coordinates
+          }
+        });
+        coordinates = [];
+      });
+    }
+
+    if(textAnnotations && textAnnotations.length > 0) {
+      textAnnotations.forEach(function(annotation) {
+        geoJSON.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [annotation.lng, annotation.lat]
+          },
+          properties: {
+            'marker-color': '#142',
+            'marker-size': 'small'
+          }
+        });
+      });
+    }
+
+    this.set('geoJSON', geoJSON);
   },
 
-  addLine: function(e) {
-    var waypointsHelper = (this.get('waypoints') === undefined) ? [] : this.get('waypoints');
-    waypointsHelper.push(e.layer.getLatLngs());
-    this.set('waypoints', waypointsHelper);
-    this.drawRoute();
-  },
-
-  addMarker: function(e) {
-    var markerHelper = (this.get('textAnnotations') === undefined) ? [] : this.get('textAnnotations');
-    markerHelper.push(e.layer.getLatLng());
-    this.set('textAnnotations', markerHelper);
-    this.drawRoute();
+  addElement: function(e) {
+    var coordinates;
+    var model;
+    if(e.layerType === 'polyline') {
+      coordinates = e.layer.getLatLngs();
+      model = 'waypoints';
+    }
+    if(e.layerType === 'marker') {
+      coordinates = e.layer.getLatLng();
+      model = 'textAnnotations';
+    }
+    var elementHelper = (this.get(model) === undefined) ? [] : this.get(model);
+    elementHelper.push(coordinates);
+    this.set(model, elementHelper);
+    this.drawTrip();
   },
 
   editTrip: function() {
-    this.set('tripFeatures', new L.featureGroup().addTo(this.get('map')));
-
     if (this.get('routeDrawing') === undefined) {
       var drawControl = new L.Control.Draw({
         edit: {
-          featureGroup: this.get('tripFeatures')
+          featureGroup: this.get('featureLayer')
         },
 
         draw: {
@@ -52,54 +87,44 @@ App.MapDisplayComponent = Ember.Component.extend({
         }
       }).addTo(this.get('map'));
 
-        this.set('routeDrawing', drawControl);
+      this.set('routeDrawing', drawControl);
     }
-
-    this.get('map').on('draw:created', function(e) {
-      this.get('tripFeatures').addLayer(e.layer);
-      this.controlFeature(e);
-    }.bind(this));
-
   },
 
   didInsertElement: function() {
-    this._super();
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
     this.drawTrip();
+
+    this.get('map').on('draw:created', function(e) {
+      this.addElement(e);
+    }.bind(this));
   },
 
-  drawTrip: function() {
-    this.drawRoute();
-
-    if (this.get('editMode') === 'editRoute') { this.editTrip(); }
-    else if(this.get('editMode') === 'editTextAnnotations') { this.editTextAnnotations(); }
-  },
-
-  drawRoute: function() {
+  setBounds: function(featureLayer) {
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
-    var allRoutes = [];
-    if(this.get('waypoints') && this.get('waypoints').length > 0) {
-      this.get('waypoints').forEach(function(point) {
-          L.polyline(point, { color: '#142' }).addTo(this.get('map'));
-          allRoutes.push(point);
-      }.bind(this));
-      this.get('map').fitBounds(allRoutes).getBounds();
+    if(featureLayer) {
+      this.get('map').fitBounds(featureLayer.getBounds());
     } else {
       this.get('map').fitBounds(defaultBounds);
     }
-    if (this.get('textAnnotations') && this.get('textAnnotations').length > 0) {
-      this.get('textAnnotations').forEach(function(point) {
-        L.marker(point, {
-          'marker-size': 'small',
-          'marker-color': '#142'}).addTo(this.get('map'));
-      }.bind(this));
+  },
+
+  drawTrip: function() {
+    if(this.get('featureLayer')) {
+      this.get('map').removeLayer(this.get('featureLayer'));
     }
+    this.setGeoJSON();
+    if(this.get('geoJSON').length > 0) {
+      this.set('featureLayer', L.mapbox.featureLayer(this.get('geoJSON')).addTo(this.get('map')));
+      this.setBounds(this.get('featureLayer'));
+    } else {
+      this.setBounds();
+    }
+
+    if (this.get('editMode') === 'editRoute') { this.editTrip(); }
   },
 
   mapDidChange: function() {
-    if(this.get('tripFeatures')) {
-      this.get('map').removeLayer(this.get('tripFeatures'));
-    }
     this.drawTrip();
   }.observes('waypoints', 'editMode')
 });

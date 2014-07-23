@@ -5,7 +5,7 @@
     "app/bower_components/ember/ember<%= ember_suffix %>.js",
     "app/bower_components/ember-data/ember-data<%= ember_suffix %>.js",
     "app/bower_components/foundation/js/foundation.js",
-    "app/bower_components/mapbox.js.compiled/mapbox.js",
+    "app/mapbox.js",
     "app/bower_components/leaflet.draw/dist/leaflet.draw.js",
     "app/bower_components/admit-one-ember/dist/admit-one-ember.js"
   ]
