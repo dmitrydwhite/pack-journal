@@ -80,11 +80,11 @@ describe('Trips API', function() {
       tripFixture.initialData.trip.id = doc._id;
       expect(doc.name).to.eql(tripFixture.initialData.trip.name);
       expect(doc.owner).to.exist;
-      expect(doc.features.waypoints[0].toJSON())
+      expect(doc.features.waypoints[0])
         .to.eql(tripFixture.initialData.trip.features.waypoints[0]);
-      expect(doc.features.waypoints[1].toJSON())
+      expect(doc.features.waypoints[1])
         .to.eql(tripFixture.initialData.trip.features.waypoints[1]);
-      expect(doc.features.textAnnotations[0].toJSON())
+      expect(doc.features.textAnnotations[0])
         .to.eql(tripFixture.initialData.trip.features.textAnnotations[0]);
       done();
     })
@@ -138,11 +138,11 @@ describe('Trips API', function() {
     .then(function(doc) {
       expect(doc.name).to.eql(tripFixture.afterPutData.trip.name);
       expect(doc.owner).to.exist;
-      expect(doc.features.waypoints[0].toJSON())
+      expect(doc.features.waypoints[0])
         .to.eql(tripFixture.afterPutData.trip.features.waypoints[0]);
-      expect(doc.features.waypoints[1].toJSON())
+      expect(doc.features.waypoints[1])
         .to.eql(tripFixture.afterPutData.trip.features.waypoints[1]);
-      expect(doc.features.textAnnotations[0].toJSON())
+      expect(doc.features.textAnnotations[0])
         .to.eql(tripFixture.afterPutData.trip.features.textAnnotations[0]);
       tripFixture.afterPutData.trip.id = doc._id;
       expect(doc._id).to.exist;
