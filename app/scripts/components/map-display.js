@@ -11,6 +11,8 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   featureLayer: undefined,
 
+  clickHandlerRegistered: false,
+
   setGeoJSON: function() {
     var geoJSON = [];
     var waypoints = this.get('waypoints');
@@ -74,6 +76,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     var elementHelper = (this.get(model) === undefined) ? [] : this.get(model);
     elementHelper.push(coordinates);
     this.set(model, elementHelper);
+    this.setGeoJSON();
     this.drawTrip();
   },
 
@@ -103,6 +106,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     });
     this.set('waypoints', newWaypoints);
     this.set('textAnnotations', newTextAnnotations);
+    this.setGeoJSON();
     this.drawTrip();
   },
 
@@ -128,6 +132,7 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   didInsertElement: function() {
     this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
+    this.setGeoJSON();
     this.drawTrip();
 
     this.get('map').on('draw:created', function(e) {
@@ -148,14 +153,27 @@ App.MapDisplayComponent = Ember.Component.extend({
     }
   },
 
+  registerClickHandler: function() {
+    if(!this.get('clickHandlerRegistered')) {
+      this.set('clickHandlerRegistered', true);
+      this.get('featureLayer').on('click', function(e) {
+        this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
+        // resetColors();
+        // e.layer.feature.properties['old-color'] = e.layer.feature.properties['marker-color'];
+        // e.layer.feature.properties['marker-color'] = '#ff8888';
+        // myLayer.setGeoJSON(geoJson);
+      }.bind(this));
+    }
+  },
+
   drawTrip: function() {
     if(this.get('featureLayer')) {
       this.get('map').removeLayer(this.get('featureLayer'));
     }
-    this.setGeoJSON();
     if(this.get('geoJSON').length > 0) {
       this.set('featureLayer', L.mapbox.featureLayer(this.get('geoJSON')).addTo(this.get('map')));
       this.setBounds(this.get('featureLayer'));
+      this.registerClickHandler();
     } else {
       this.setBounds();
     }
@@ -164,6 +182,7 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   mapDidChange: function() {
+    this.setGeoJSON();
     this.drawTrip();
   }.observes('waypoints', 'editMode')
 });
