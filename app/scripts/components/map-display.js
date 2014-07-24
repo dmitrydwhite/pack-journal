@@ -82,13 +82,28 @@ App.MapDisplayComponent = Ember.Component.extend({
       var i;
       for(i=0; i<this.geoJSON.length; i++) {
         if(layer.feature.properties.id === this.geoJSON[i].properties.id) {
-          console.log('coords, they are a changin');
           this.geoJSON[i] = layer.toGeoJSON();
         }
       }
     }.bind(this));
 
-    console.log(this.get('geoJSON'));
+    var newWaypoints = [];
+    var newTextAnnotations = [];
+    this.get('geoJSON').forEach(function(feature) {
+      if(feature.geometry.type === 'LineString') {
+        newWaypoints.push(feature.geometry.coordinates.map(function(point) {
+          return { lng: point[0], lat: point[1] };
+        }));
+      } else if (feature.geometry.type === 'Point') {
+        newTextAnnotations.push({
+          lng: feature.geometry.coordinates[0],
+          lat: feature.geometry.coordinates[1]
+        });
+      }
+    });
+    this.set('waypoints', newWaypoints);
+    this.set('textAnnotations', newTextAnnotations);
+    this.drawTrip();
   },
 
   editTrip: function() {
