@@ -16,6 +16,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     var waypoints = this.get('waypoints');
     var textAnnotations = this.get('textAnnotations');
     var coordinates;
+    var idCounter = 0;
 
     // Transform waypoints property into geoJSON
     if(waypoints && waypoints.length > 0) {
@@ -29,8 +30,12 @@ App.MapDisplayComponent = Ember.Component.extend({
           geometry: {
             type: 'LineString',
             coordinates: coordinates
+          },
+          properties: {
+            id: idCounter
           }
         });
+        idCounter++;
         coordinates = [];
       });
     }
@@ -45,12 +50,13 @@ App.MapDisplayComponent = Ember.Component.extend({
           },
           properties: {
             'marker-color': '#142',
-            'marker-size': 'small'
+            'marker-size': 'small',
+            id: idCounter
           }
         });
+        idCounter++;
       });
     }
-
     this.set('geoJSON', geoJSON);
   },
 
@@ -69,6 +75,20 @@ App.MapDisplayComponent = Ember.Component.extend({
     elementHelper.push(coordinates);
     this.set(model, elementHelper);
     this.drawTrip();
+  },
+
+  editElement: function(e) {
+    e.layers.eachLayer(function(layer) {
+      var i;
+      for(i=0; i<this.geoJSON.length; i++) {
+        if(layer.feature.properties.id === this.geoJSON[i].properties.id) {
+          console.log('coords, they are a changin');
+          this.geoJSON[i] = layer.toGeoJSON();
+        }
+      }
+    }.bind(this));
+
+    console.log(this.get('geoJSON'));
   },
 
   editTrip: function() {
@@ -97,6 +117,10 @@ App.MapDisplayComponent = Ember.Component.extend({
 
     this.get('map').on('draw:created', function(e) {
       this.addElement(e);
+    }.bind(this));
+
+    this.get('map').on('draw:edited', function(e) {
+      this.editElement(e);
     }.bind(this));
   },
 
