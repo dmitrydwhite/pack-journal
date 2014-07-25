@@ -3,19 +3,14 @@
 App.TripEditRoute = Ember.Route.extend({
   actions: {
     saveTrip: function() {
-      var self = this;
       this.currentModel.save()
       .then(function() {
-        self.transitionTo('trips');
+        console.log('saved!');
       })
       .catch(function(err) {
         console.log(err);
       }) ;
     },
-
-    addTextAnnotation: function() {
-      this.controller.set('editMode', 'editTextAnnotations');
-    }
   },
 
   renderTemplate: function() {

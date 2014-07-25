@@ -157,7 +157,9 @@ App.MapDisplayComponent = Ember.Component.extend({
     if(!this.get('clickHandlerRegistered')) {
       this.set('clickHandlerRegistered', true);
       this.get('featureLayer').on('click', function(e) {
+        console.log('clicked');
         this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
+        console.log(this.get('editAnnotationIndex'));
         // resetColors();
         // e.layer.feature.properties['old-color'] = e.layer.feature.properties['marker-color'];
         // e.layer.feature.properties['marker-color'] = '#ff8888';
