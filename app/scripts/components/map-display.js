@@ -111,10 +111,13 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   editTrip: function() {
+    var drawControl;
+    var featureLayer = this.get('featureLayer') ? this.get('featureLayer') : L.featureGroup();
+
     if (this.get('routeDrawing') === undefined) {
-      var drawControl = new L.Control.Draw({
+      drawControl = new L.Control.Draw({
         edit: {
-          featureGroup: this.get('featureLayer')
+          featureGroup: featureLayer
         },
 
         draw: {
@@ -184,6 +187,7 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   mapDidChange: function() {
+    console.log('in mapDidChange');
     this.setGeoJSON();
     this.drawTrip();
   }.observes('waypoints', 'editMode')

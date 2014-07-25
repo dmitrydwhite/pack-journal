@@ -6,10 +6,7 @@ App.TripEditRoute = Ember.Route.extend({
       this.currentModel.save()
       .then(function() {
         console.log('saved!');
-      })
-      .catch(function(err) {
-        console.log(err);
-      }) ;
+      });
     },
   },
 

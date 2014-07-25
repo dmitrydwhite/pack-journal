@@ -19,6 +19,20 @@ App.TripSerializer = DS.RESTSerializer.extend({
     return this._super(store, type, payload);
   },
 
+  extractSave: function(store, type, payload) {
+    payload.trip.waypoints = payload.trip.features.waypoints;
+    payload.trip.textAnnotations = payload.trip.features.textAnnotations;
+    delete payload.trip.features;
+    return this._super(store, type, payload);
+  },
+
+  extractFind: function(store, type, payload) {
+    payload.trip.waypoints = payload.trip.features.waypoints;
+    payload.trip.textAnnotations = payload.trip.features.textAnnotations;
+    delete payload.trip.features;
+    return this._super(store, type, payload);
+  },
+
   serialize: function(trip) {
     var json = {
       name: trip.get('name'),
