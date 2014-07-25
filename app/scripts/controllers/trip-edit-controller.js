@@ -5,18 +5,18 @@ App.TripEditController = Ember.ObjectController.extend({
 
   editAnnotationIndex: undefined,
 
-  displayedText: function() {
-    console.log('in displayed text');
-    console.log(this.get('textAnnotations')[this.get('editAnnotationIndex')].text);
-    return this.get('textAnnotations')[this.get('editAnnotationIndex')].text;
-  }.property('editAnnotationIndex'),
-  
+  displayedText: function(key, value, previousValue) {
+    //setter
+    if(arguments.length > 1) {
+      var textAnnotations = this.get('textAnnotations');
+      textAnnotations[this.get('editAnnotationIndex')].text = value;
+      this.set('textAnnotations', textAnnotations);
+    }
 
-  updateModelWithText: function() {
-    console.log('in update model with text. dislayedText: ', this.get('displayedText'));
-    var textAnnotations = this.get('textAnnotations');
-    textAnnotations[this.get('editAnnotationIndex')].text = this.get('displayedText');
-    this.set('textAnnotations', textAnnotations);
-  }.observes('displayedText')
+    //getter
+    if(this.get('editAnnotationIndex') !== undefined) {
+      return this.get('textAnnotations')[this.get('editAnnotationIndex')].text;
+    }
+  }.property('editAnnotationIndex'),
 
 });
