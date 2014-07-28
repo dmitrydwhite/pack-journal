@@ -172,6 +172,7 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   drawTrip: function() {
+    console.log('made it in drawtrip');
     if(this.get('featureLayer')) {
       this.get('map').removeLayer(this.get('featureLayer'));
     }
