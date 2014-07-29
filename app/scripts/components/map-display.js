@@ -1,6 +1,8 @@
 'use strict';
 
 App.MapDisplayComponent = Ember.Component.extend({
+
+  // Define variables to be used locally on the Component:
   map: undefined,
 
   textMarkers: undefined,
@@ -13,6 +15,22 @@ App.MapDisplayComponent = Ember.Component.extend({
 
   clickHandlerRegistered: false,
 
+  // Set up Event Listeners & draw initial map features once each time map loads
+  didInsertElement: function() {
+    console.log('did insert element');
+    this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
+    this.setGeoJSON();
+    this.drawTrip();
+
+    this.get('map').on('draw:created', function(e) {
+      this.addElement(e);
+    }.bind(this));
+
+    this.get('map').on('draw:edited', function(e) {
+      this.editElement(e);
+    }.bind(this));
+  },
+
   setGeoJSON: function() {
     var geoJSON = [];
     var waypoints = this.get('waypoints');
@@ -20,7 +38,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     var coordinates;
     var idCounter = 0;
 
-    // Transform waypoints property into geoJSON
+    // Transform waypoints property into geoJSON format
     if(waypoints && waypoints.length > 0) {
       waypoints.forEach(function(line) {
         coordinates = line.map(function(point) {
@@ -42,6 +60,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       });
     }
 
+    // Transform textAnnotations property into GeoJSON format
     if(textAnnotations && textAnnotations.length > 0) {
       textAnnotations.forEach(function(annotation) {
         geoJSON.push({
@@ -133,19 +152,6 @@ App.MapDisplayComponent = Ember.Component.extend({
     }
   },
 
-  didInsertElement: function() {
-    this.set('map', L.mapbox.map('map', Ember.config.MAPKEY));
-    this.setGeoJSON();
-    this.drawTrip();
-
-    this.get('map').on('draw:created', function(e) {
-      this.addElement(e);
-    }.bind(this));
-
-    this.get('map').on('draw:edited', function(e) {
-      this.editElement(e);
-    }.bind(this));
-  },
 
   setBounds: function(featureLayer) {
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
@@ -157,29 +163,28 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   registerClickHandler: function() {
-    if(!this.get('clickHandlerRegistered')) {
-      this.set('clickHandlerRegistered', true);
-      this.get('featureLayer').on('click', function(e) {
-        console.log('clicked');
-        this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
-        console.log(this.get('editAnnotationIndex'));
-        // resetColors();
-        // e.layer.feature.properties['old-color'] = e.layer.feature.properties['marker-color'];
-        // e.layer.feature.properties['marker-color'] = '#ff8888';
-        // myLayer.setGeoJSON(geoJson);
-      }.bind(this));
+    if( !this.get('clickHandlerRegistered') ) {
+      this.set('clickHandlerRegistered', (function() {
+        this.get('featureLayer').on('click', function(e) {
+          this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
+          console.log('clicked' + this.get('editAnnotationIndex'));
+        }.bind(this));
+      }.bind(this))());
     }
   },
 
   drawTrip: function() {
     console.log('made it in drawtrip');
     if(this.get('featureLayer')) {
+      console.log('there is a feature layer');
       this.get('map').removeLayer(this.get('featureLayer'));
     }
     if(this.get('geoJSON').length > 0) {
+      console.log('there is GeoJSON');
       this.set('featureLayer', L.mapbox.featureLayer(this.get('geoJSON')).addTo(this.get('map')));
       this.setBounds(this.get('featureLayer'));
       this.registerClickHandler();
+      console.log(this.get('clickHandlerRegistered'));
     } else {
       this.setBounds();
     }
