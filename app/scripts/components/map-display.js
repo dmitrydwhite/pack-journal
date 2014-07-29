@@ -2,6 +2,11 @@
 
 App.MapDisplayComponent = Ember.Component.extend({
 
+  // TODO: Capture center of map on view reset (see mapbox).  See if Add Button
+  // on Application Template can be changed to a view rather than a link-to.
+  // Use that view to capture the center of the map.  Possibly use an alternate
+  // controller for the map rendering on the Add Route.
+
   // Define variables to be used locally on the Component:
   map: undefined,
 
