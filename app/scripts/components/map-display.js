@@ -29,8 +29,11 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.get('map').on('draw:edited', function(e) {
       this.editElement(e);
     }.bind(this));
+
+    // TODO: Enable deleting markers and lines
   },
 
+  // Convert stored model data to GeoJSON format
   setGeoJSON: function() {
     var geoJSON = [];
     var waypoints = this.get('waypoints');
@@ -81,6 +84,8 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.set('geoJSON', geoJSON);
   },
 
+  // Add a newly drawn element to the data model and to the controller's GeoJSON,
+  //    re-draw the map
   addElement: function(e) {
     var coordinates;
     var model;
@@ -99,6 +104,8 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.drawTrip();
   },
 
+  // Replace all the recently edited layers in the component's GeoJSON hash,
+  //    update the data models with the new GeoJSON hash, then re-draw the map
   editElement: function(e) {
     e.layers.eachLayer(function(layer) {
       var i;
@@ -151,7 +158,6 @@ App.MapDisplayComponent = Ember.Component.extend({
       this.set('routeDrawing', drawControl);
     }
   },
-
 
   setBounds: function(featureLayer) {
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
