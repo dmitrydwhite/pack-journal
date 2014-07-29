@@ -1,6 +1,11 @@
 <div class="panel">
-  <h5>Click on the map to add waypoints</h5>
+  {{#view App.BackSaveView}}
+  <div class="back_button">
+      <img src="../../assets/images/list.png" alt="back" size="100%">
+  </div>
+  {{/view}}
   <h5>{{input placeholder="Trip Title" value=name}}</h5>
+  <h5>Click on the map to add waypoints</h5>
   <button class="button" {{action saveTrip}}>Save</button>
   {{#link-to "trip.delete" id}}<button class="button">Delete</button>{{/link-to}}
   {{#if displayEntryBox}}

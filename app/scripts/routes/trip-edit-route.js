@@ -8,6 +8,13 @@ App.TripEditRoute = Ember.Route.extend({
         console.log('saved!');
       });
     },
+
+    backSave: function() {
+      this.currentModel.save()
+      .then(function() {
+        this.transitionTo('trips');
+      }.bind(this));
+    }
   },
 
   renderTemplate: function() {

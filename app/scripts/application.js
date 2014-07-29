@@ -26,4 +26,5 @@ require('./routes/trip-edit-route');
 require('./routes/trip-delete-route');
 require('./controllers/login-controller');
 require('./controllers/trip-edit-controller');
+require('./views/back-save-view.js');
 require('./adapters');
