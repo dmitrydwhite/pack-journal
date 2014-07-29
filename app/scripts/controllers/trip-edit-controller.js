@@ -3,6 +3,11 @@
 App.TripEditController = Ember.ObjectController.extend({
   editMode: 'editRoute',
 
+  displayEntryBox: function() {
+    var display = this.get('editAnnotationIndex') >= 0 ? true : false;
+    return display;
+  }.property('editAnnotationIndex'),
+
   editAnnotationIndex: undefined,
 
   displayedText: function(key, value, previousValue) {

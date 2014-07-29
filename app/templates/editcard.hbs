@@ -3,7 +3,7 @@
   <h5>{{input placeholder="Trip Title" value=name}}</h5>
   <button class="button" {{action saveTrip}}>Save</button>
   {{#link-to "trip.delete" id}}<button class="button">Delete</button>{{/link-to}}
-  {{#if editAnnotationIndex includeZero=false}}
+  {{#if displayEntryBox}}
     {{input placeholder="Tell us about this spot" value=displayedText}}
   {{/if}}
   {{editAnnotationIndex}}
