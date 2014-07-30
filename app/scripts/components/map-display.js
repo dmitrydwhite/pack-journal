@@ -10,6 +10,8 @@ App.MapDisplayComponent = Ember.Component.extend({
   // Define variables to be used locally on the Component:
   map: undefined,
 
+  ghostCenter: undefined,
+
   textMarkers: undefined,
 
   routeDrawing: undefined,
@@ -190,7 +192,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       if (tooSmall) {this.get('map').setView(center, 13);}
       else {this.get('map').fitBounds(featureLayer);}
     } else
-    if (this.get('ghostCenter') !== undefined) {
+    if (this.get('ghostCenter')) {
       console.log('there is a ghost center');
       this.get('map').setView(this.get('ghostCenter'), 12);
     }
