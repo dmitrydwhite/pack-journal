@@ -44,7 +44,10 @@ footer {
   color: #41402C;
 }
 
-.button:hover, button:hover {
+.button:hover,
+.button:focus,
+button:hover,
+button:focus {
   background-color: #3C1E16;
 }
 
