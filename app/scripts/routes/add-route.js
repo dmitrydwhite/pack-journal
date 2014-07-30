@@ -8,6 +8,11 @@ App.AddRoute = Ember.Route.extend({
     }
   },
 
+  setupController: function(controller, model) {
+    var center = this.controllerFor('trips').get('ghostCenter');
+    controller.set('ghostCenter', center);
+  },
+
   renderTemplate: function() {
     this.render('application');
     this.render('main', {
