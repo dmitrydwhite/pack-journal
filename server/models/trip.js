@@ -23,7 +23,8 @@ module.exports = (function() {
       // textAnnotations: [ TextAnnotationSchema ]
 
       waypoints:  Array ,
-      textAnnotations:   Array
+      textAnnotations:   Array,
+      ghostCenter: Array
     }
   });
 

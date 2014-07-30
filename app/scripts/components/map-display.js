@@ -36,6 +36,16 @@ App.MapDisplayComponent = Ember.Component.extend({
     }.bind(this));
 
     // TODO: Enable deleting markers and lines
+
+    this.get('map').on('viewreset', function(e) {
+      console.log(e.target.getCenter());
+      console.log(e.target.getZoom());
+      if (!this.get('featureLayer')) {
+        var draw = e.target.getCenter();
+        var ghostCenter = [draw.lat, draw.lng];
+        this.set('ghostCenter', ghostCenter);
+      }
+    }.bind(this));
   },
 
   // Convert stored model data to GeoJSON format
@@ -165,10 +175,22 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   setBounds: function(featureLayer) {
+    console.log('setting bounds with ghost Center: ' + this.get('ghostCenter'));
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     if(featureLayer) {
-      this.get('map').fitBounds(featureLayer.getBounds());
-    } else {
+      var bounds = featureLayer.getBounds();
+      var center = bounds.getCenter();
+      var sw = bounds.getSouthWest();
+      var ne = bounds.getNorthEast();
+      var tooSmall = sw.lng - ne.lng < 0.125 || ne.lat - sw.lng < 0.125 ? true : false;
+      if (tooSmall) {this.get('map').setView(center, 13);}
+      else {this.get('map').fitBounds(featureLayer);}
+    } else
+    if (this.get('ghostCenter') !== undefined) {
+      console.log('there is a ghost center');
+      this.get('map').setView(this.get('ghostCenter'), 12);
+    }
+    else {
       this.get('map').fitBounds(defaultBounds);
     }
   },

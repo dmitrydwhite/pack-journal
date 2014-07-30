@@ -13,6 +13,7 @@ App.TripSerializer = DS.RESTSerializer.extend({
     payload.trips.forEach(function(trip) {
       trip.waypoints = trip.features.waypoints;
       trip.textAnnotations = trip.features.textAnnotations;
+      trip.ghostCenter = trip.features.ghostCenter;
       delete trip.features;
     });
 
@@ -22,6 +23,7 @@ App.TripSerializer = DS.RESTSerializer.extend({
   extractSave: function(store, type, payload) {
     payload.trip.waypoints = payload.trip.features.waypoints;
     payload.trip.textAnnotations = payload.trip.features.textAnnotations;
+    payload.trip.ghostCenter = payload.trip.features.ghostCenter;
     delete payload.trip.features;
     return this._super(store, type, payload);
   },
@@ -29,6 +31,7 @@ App.TripSerializer = DS.RESTSerializer.extend({
   extractFind: function(store, type, payload) {
     payload.trip.waypoints = payload.trip.features.waypoints;
     payload.trip.textAnnotations = payload.trip.features.textAnnotations;
+    payload.trip.ghostCenter = payload.trip.features.ghostCenter;
     delete payload.trip.features;
     return this._super(store, type, payload);
   },
@@ -38,7 +41,8 @@ App.TripSerializer = DS.RESTSerializer.extend({
       name: trip.get('name'),
       features: {
         waypoints: trip.get('waypoints'),
-        textAnnotations: trip.get('textAnnotations')
+        textAnnotations: trip.get('textAnnotations'),
+        ghostCenter: trip.get('ghostCenter')
       }
     };
 
