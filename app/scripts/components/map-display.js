@@ -178,11 +178,15 @@ App.MapDisplayComponent = Ember.Component.extend({
     console.log('setting bounds with ghost Center: ' + this.get('ghostCenter'));
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     if(featureLayer) {
+      console.log('there is a feature layer');
       var bounds = featureLayer.getBounds();
       var center = bounds.getCenter();
       var sw = bounds.getSouthWest();
       var ne = bounds.getNorthEast();
-      var tooSmall = sw.lng - ne.lng < 0.125 || ne.lat - sw.lng < 0.125 ? true : false;
+      console.log(sw.lng-ne.lng);
+      console.log(ne.lat-sw.lat);
+      var tooSmall = sw.lng - ne.lng < 0.0125 && ne.lat - sw.lat < 0.0125 ? true : false;
+      console.log(tooSmall);
       if (tooSmall) {this.get('map').setView(center, 13);}
       else {this.get('map').fitBounds(featureLayer);}
     } else
