@@ -28,6 +28,13 @@ h1 {
   color: #E09F69;
 }
 
+.tagline h3 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: #E09F69;
+}
+
 footer {
   color: white;
 }
@@ -37,7 +44,10 @@ footer {
   color: #41402C;
 }
 
-.button:hover, button:hover {
+.button:hover,
+.button:focus,
+button:hover,
+button:focus {
   background-color: #3C1E16;
 }
 
