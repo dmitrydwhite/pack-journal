@@ -26,7 +26,6 @@ App.TripEditRoute = Ember.Route.extend({
     this.render('editcard', {
       outlet: 'sidebar',
       into: 'main',
-      controller: 'trip'
     });
   },
 
