@@ -6,10 +6,6 @@ App.SignupRoute = Ember.Route.extend({
   },
 
   renderTemplate: function() {
-    this.render('application');
-    this.render('main', {
-      into: 'application'
-    });
     this.render('application.index', {
       into: 'main',
       outlet: 'sidebar'

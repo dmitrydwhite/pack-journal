@@ -4,7 +4,7 @@ App.TripsRoute = Ember.Route.extend({
   beforeModel: function() {
     this._super();
     if (this.get('session').get('isAuthenticated') === false) {
-      this.transitionTo('application');
+      this.transitionTo('login');
     }
   },
 
@@ -13,10 +13,6 @@ App.TripsRoute = Ember.Route.extend({
   },
 
   renderTemplate: function() {
-    this.render('application');
-    this.render('main', {
-      into: 'application'
-    });
     this.render('map/default', {
       outlet: 'map',
       into: 'main'

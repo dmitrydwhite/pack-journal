@@ -7,7 +7,18 @@ App.LogoutRoute = Ember.Route.extend({
     var session = this.get('session');
     return session.invalidate().finally(function() {
       self.store.unloadAll('trip');
-      self.transitionTo('application');
+      // self.transitionTo('application');
+    });
+  },
+
+  renderTemplate: function() {
+    this.render('application.index', {
+      into: 'main',
+      outlet: 'sidebar'
+    });
+    this.render('covermap', {
+      into: 'main',
+      outlet: 'map'
     });
   }
 });
