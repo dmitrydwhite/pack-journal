@@ -182,7 +182,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       var ne = bounds.getNorthEast();
       console.log(sw.lng-ne.lng);
       console.log(ne.lat-sw.lat);
-      var tooSmall = sw.lng - ne.lng < 0.00625 && ne.lat - sw.lat < 0.00625 ? true : false;
+      var tooSmall = sw.lng - ne.lng < 0.00150625 && ne.lat - sw.lat < 0.00150625 ? true : false;
       console.log(tooSmall);
       if (tooSmall) {this.get('map').setView(center, 13);}
       else {this.get('map').fitBounds(featureLayer);}
