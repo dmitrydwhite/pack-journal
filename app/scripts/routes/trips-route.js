@@ -8,6 +8,11 @@ App.TripsRoute = Ember.Route.extend({
     }
   },
 
+  setupController: function(controller, model) {
+    controller.set('ghostCenter', undefined);
+    controller.set('model', model);
+  },
+
   model: function() {
     return this.store.find('trip');
   },

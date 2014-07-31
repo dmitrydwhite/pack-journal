@@ -3,16 +3,13 @@
 App.TripEditRoute = Ember.Route.extend({
   actions: {
     saveTrip: function() {
-      this.currentModel.save()
-      .then(function() {
-        console.log('saved!');
-      });
+      this.currentModel.save();
     },
 
     backSave: function() {
       this.currentModel.save()
       .then(function() {
-        this.controllerFor('trips').set('ghostCenter', undefined);
+        // this.controllerFor('trips').set('ghostCenter', undefined);
         this.transitionTo('trips');
       }.bind(this));
     }
