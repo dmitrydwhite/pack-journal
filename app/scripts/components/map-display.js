@@ -200,8 +200,23 @@ App.MapDisplayComponent = Ember.Component.extend({
     if( !this.get('clickHandlerRegistered') ) {
       this.set('clickHandlerRegistered', (function() {
         this.get('featureLayer').on('click', function(e) {
+          console.log(e);
+          var geoJSON = this.get('geoJSON');
+          var resetColors = function() {
+            console.log('resetting colors');
+            for (var i = 0; i < geoJSON.length; i++) {
+              if (geoJSON[i].geometry.type === 'Point') {
+                if (geoJSON[i].properties.id === e.layer.feature.properties.id) {
+                  geoJSON[i].properties['marker-color'] = '#000';
+                } else {
+                  geoJSON[i].properties['marker-color'] = '#142';
+                }
+                }
+              }
+            this.set('geoJSON', geoJSON);
+          }.bind(this);
+          resetColors();
           this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
-          console.log('clicked' + this.get('editAnnotationIndex'));
         }.bind(this));
       }.bind(this))());
     }
