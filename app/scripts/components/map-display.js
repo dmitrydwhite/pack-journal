@@ -5,7 +5,7 @@ App.MapDisplayComponent = Ember.Component.extend({
   // Define variables to be used locally on the Component:
   map: undefined,
 
-  ghostCenter: undefined,
+  // ghostCenter: undefined,
 
   textMarkers: undefined,
 
@@ -172,7 +172,9 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   setBounds: function(featureLayer) {
-    console.log('setting bounds with ghost Center: ' + this.get('ghostCenter'));
+    var boundCenter = [];
+    boundCenter = this.get('ghostCenter');
+    console.log('setting bounds with ghost Center: ' + boundCenter);
     var defaultBounds = [[45.2, -122.9],[45.9,-122.3]];
     if(featureLayer) {
       console.log('there is a feature layer');
@@ -186,10 +188,10 @@ App.MapDisplayComponent = Ember.Component.extend({
       console.log(tooSmall);
       if (tooSmall) {this.get('map').setView(center, 13);}
       else {this.get('map').fitBounds(featureLayer);}
-    } else
-    if (!!this.get('ghostCenter')) {
-      console.log('there is a ghost center');
-      this.get('map').setView(this.get('ghostCenter'), 12);
+    }
+    if (boundCenter !== undefined && boundCenter.length) {
+      console.log(boundCenter);
+      this.get('map').setView(boundCenter, 12);
     }
     else {
       this.get('map').fitBounds(defaultBounds);
