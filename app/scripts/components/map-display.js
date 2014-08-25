@@ -192,6 +192,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       this.get('map').setView(this.get('ghostCenter'), 12);
     }
     else {
+      console.log('No Ghost Center or Feature Layer, using default bounds');
       this.get('map').fitBounds(defaultBounds);
     }
   },
@@ -200,40 +201,48 @@ App.MapDisplayComponent = Ember.Component.extend({
     if( !this.get('clickHandlerRegistered') ) {
       this.set('clickHandlerRegistered', (function() {
         this.get('featureLayer').on('click', function(e) {
-          console.log(e);
           var geoJSON = this.get('geoJSON');
-          var resetColors = function() {
-            console.log('resetting colors');
-            for (var i = 0; i < geoJSON.length; i++) {
-              if (geoJSON[i].geometry.type === 'Point') {
-                if (geoJSON[i].properties.id === e.layer.feature.properties.id) {
-                  geoJSON[i].properties['marker-color'] = '#000';
-                } else {
-                  geoJSON[i].properties['marker-color'] = '#142';
-                }
-                }
-              }
-            this.set('geoJSON', geoJSON);
-          }.bind(this);
-          resetColors();
-          this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id - this.get('waypoints').length);
+          console.log(e);
+          this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id);
+          this.resetColors(e, geoJSON);
+          this.drawTrip(true);
         }.bind(this));
       }.bind(this))());
     }
   },
 
-  drawTrip: function() {
-    console.log('made it in drawtrip');
+  resetColors: function(e, layer) {
+    var highlitedPoint = e ? e.layer.feature.properties.id : this.get('editAnnotationIndex');
+    var geoJSON = layer ? layer : this.get('geoJSON');
+    for (var i = 0; i < geoJSON.length; i++) {
+      if (geoJSON[i].geometry.type === 'Point') {
+        if (geoJSON[i].properties.id === highlitedPoint) {
+          geoJSON[i].properties['marker-color'] = '#59ff75';
+        } else {
+          geoJSON[i].properties['marker-color'] = '#142';
+        }
+        }
+      }
+    this.set('geoJSON', geoJSON);
+  },
+
+  highlightLastPoint: function() {
+    if (this.get('editAnnotationIndex')) {
+      console.log(this.get('editAnnotationIndex'));
+      this.resetColors();
+    }
+  },
+
+  drawTrip: function(clicked) {
+    console.log('drawTrip Function Running');
+    if (!clicked) {this.highlightLastPoint();}
     if(this.get('featureLayer')) {
-      console.log('there is a feature layer');
       this.get('map').removeLayer(this.get('featureLayer'));
     }
     if(this.get('geoJSON').length > 0) {
-      console.log('there is GeoJSON');
       this.set('featureLayer', L.mapbox.featureLayer(this.get('geoJSON')).addTo(this.get('map')));
       this.setBounds(this.get('featureLayer'));
       this.registerClickHandler();
-      console.log(this.get('clickHandlerRegistered'));
     } else {
       this.setBounds();
     }
@@ -242,7 +251,7 @@ App.MapDisplayComponent = Ember.Component.extend({
   },
 
   mapDidChange: function() {
-    console.log('in mapDidChange');
+    console.log('mapDidChange Function Running');
     this.setGeoJSON();
     this.drawTrip();
   }.observes('waypoints', 'editMode')
