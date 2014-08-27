@@ -24,6 +24,13 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.setGeoJSON();
     this.drawTrip();
 
+    this.get('map').on('draw:drawstart', function(e) {
+      console.log(e);
+      if (e.layerType === 'marker') {
+
+      }
+    });
+
     this.get('map').on('draw:created', function(e) {
       this.addElement(e);
     }.bind(this));
@@ -37,7 +44,7 @@ App.MapDisplayComponent = Ember.Component.extend({
     this.get('map').on('viewreset', function(e) {
       console.log(e.target.getCenter());
       console.log(e.target.getZoom());
-      if (!this.get('featureLayer')) {
+      if (!this.get('ghostCenter')) {
         var draw = e.target.getCenter();
         var ghostCenter = [draw.lat, draw.lng];
         this.set('ghostCenter', ghostCenter);
@@ -180,6 +187,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       console.log('there is a feature layer');
       var bounds = featureLayer.getBounds();
       var center = bounds.getCenter();
+      this.set('ghostCenter', center);
       var sw = bounds.getSouthWest();
       var ne = bounds.getNorthEast();
       console.log(sw.lng-ne.lng);
@@ -189,7 +197,7 @@ App.MapDisplayComponent = Ember.Component.extend({
       if (tooSmall) {this.get('map').setView(center, 13);}
       else {this.get('map').fitBounds(featureLayer);}
     }
-    if (boundCenter !== undefined && boundCenter.length) {
+    else if (boundCenter !== undefined && boundCenter.length) {
       console.log(boundCenter);
       this.get('map').setView(boundCenter, 12);
     }
