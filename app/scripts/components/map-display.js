@@ -202,10 +202,11 @@ App.MapDisplayComponent = Ember.Component.extend({
       this.set('clickHandlerRegistered', (function() {
         this.get('featureLayer').on('click', function(e) {
           var geoJSON = this.get('geoJSON');
-          console.log(e);
-          this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id);
-          this.resetColors(e, geoJSON);
-          this.drawTrip(true);
+          if (e.layer.toGeoJSON().geometry.type === 'Point') {
+            this.set('editAnnotationIndex', e.layer.toGeoJSON().properties.id);
+            this.resetColors(e, geoJSON);
+            this.drawTrip(true);
+          }
         }.bind(this));
       }.bind(this))());
     }
@@ -250,9 +251,9 @@ App.MapDisplayComponent = Ember.Component.extend({
     if (this.get('editMode') === 'editRoute') { this.editTrip(); }
   },
 
-  mapDidChange: function() {
-    console.log('mapDidChange Function Running');
-    this.setGeoJSON();
-    this.drawTrip();
-  }.observes('waypoints', 'editMode')
+  // mapDidChange: function() {
+  //   console.log('mapDidChange Function Running');
+  //   this.setGeoJSON();
+  //   this.drawTrip();
+  // }.observes('waypoints', 'editMode')
 });
